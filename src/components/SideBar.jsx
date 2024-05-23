@@ -6,7 +6,7 @@ import {
     VscMenu, VscFiles, VscSearch, VscSourceControl, VscCalendar, VscAccount, VscSettingsGear, VscTerminal
 } from "react-icons/vsc";
 
-function SideBar({createNewTab}) {
+function SideBar({createNewTab, showCalendar}) {
     const [activeIcon, setActiveIcon] = useState(null);
     const [isMenuVisible, setMenuVisible] = useState(false);
     const menuRef = useRef(null);
@@ -64,7 +64,7 @@ function SideBar({createNewTab}) {
                 />
                 <IconItem
                     icon={VscCalendar}
-                    onClick={() => handleIconClick('VscCalendar')}
+                    onClick={() => showCalendar()}
                     isActive={activeIcon === 'VscCalendar'}
                 />
             </div>
