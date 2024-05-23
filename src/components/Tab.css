@@ -1,0 +1,9 @@
+.tab-container {
+    padding-top: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.tab-icon {
+    margin-right: 8px;
+}

@@ -1,0 +1,23 @@
+body {
+    background-color: #1F1F1F;
+    font-family: Segoe Segoe WPC, Segoe UI, sans-serif;
+    font-size: 13px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 16px;
+    height: 35px;
+    background-color: #181818;
+    color: #fff;
+    box-sizing: border-box;
+    border-bottom: 1px solid #2B2B2B;
+}
+
+.outer {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
