@@ -14,28 +14,10 @@ Start dockers
 ```shell
 docker compose up
 ```
+Run on http://localhost:8080
 
-# DOC API (temporary)
-Port : 8080 \
-Endpoints:
-- /login
-    : body - Json format \
-    ```
-    {
-        username: "user",
-        password: "password"
-    }
-    ```
-
-- /signin
-    : body - Json format \
-  ```
-  {
-  username: "user",
-  password: "password"
-  }
-  ```\
-  Only there during the development phase
+# DOC API
+http://localhost:8080/swagger-ui.html
 
 
 # Security

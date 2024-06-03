@@ -1,13 +1,15 @@
 package com.pingServer.backend.controller;
 
 
+import com.pingServer.backend.model.ListResponse;
 import com.pingServer.backend.model.Response;
+import com.pingServer.backend.model.Schedule;
 import com.pingServer.backend.model.User;
+import com.pingServer.backend.repository.ScheduleRepository;
+import com.pingServer.backend.service.ScheduleService;
 import com.pingServer.backend.service.UserService;
 
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +21,9 @@ public class UsersController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ScheduleService scheduleService;
 
     @GetMapping
     public String home()
@@ -64,6 +69,33 @@ public class UsersController {
             response.setStatusCode(422);
         }
         return response;
+    }
+
+    @PostMapping(value = "/event", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Response createSchedule(@RequestBody final Schedule schedule)
+    {
+        Response response = new Response();
+        if(scheduleService.createSchedule(schedule))
+        {
+            response.setMessage("event successfully created");
+            response.setStatusCode(200);
+        }
+        else
+        {
+            response.setMessage("Error on event creation");
+            response.setStatusCode(422);
+        }
+        return response;
+    }
+
+    @GetMapping(value = "/event", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ListResponse allCalendar()
+    {
+        ListResponse listResponse = new ListResponse();
+        listResponse.setStatusCode(200);
+        listResponse.setMessage("All events");
+        listResponse.setData(scheduleService.getAll());
+        return listResponse;
     }
 
 }
