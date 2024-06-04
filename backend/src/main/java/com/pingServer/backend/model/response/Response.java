@@ -1,12 +1,10 @@
-package com.pingServer.backend.model;
+package com.pingServer.backend.model.response;
 
 
-import java.util.List;
-
-public class ListResponse {
+public class Response {
 
     private int statusCode;
-    private List data;
+    private String message;
 
     public int getStatusCode() {
         return statusCode;
@@ -16,21 +14,12 @@ public class ListResponse {
         this.statusCode = statusCode;
     }
 
-    public List getData() {
-        return data;
-    }
-
-    public void setData(List data) {
-        this.data = data;
-    }
-
     public String getMessage() {
         return message;
     }
 
     public void setMessage(String message) {
         this.message = message;
-    }
 
-    private String message;
+    }
 }

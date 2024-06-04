@@ -1,11 +1,10 @@
 package com.pingServer.backend.controller;
 
 
-import com.pingServer.backend.model.ListResponse;
-import com.pingServer.backend.model.Response;
+import com.pingServer.backend.model.response.ListResponse;
+import com.pingServer.backend.model.response.Response;
 import com.pingServer.backend.model.Schedule;
 import com.pingServer.backend.model.User;
-import com.pingServer.backend.repository.ScheduleRepository;
 import com.pingServer.backend.service.ScheduleService;
 import com.pingServer.backend.service.UserService;
 
