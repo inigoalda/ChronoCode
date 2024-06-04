@@ -5,6 +5,8 @@ import WorkArea from './components/WorkArea';
 import FloatingCalendar from "./components/FloatingCalendar";
 import './App.css';
 
+import Login from './components/Login';
+
 function App() {
 
     const workAreaRef = useRef();
@@ -13,20 +15,23 @@ function App() {
         workAreaRef.current.onNewTab();
     };
 
+    const [isLogged, setIsLogged] = useState(false);
     const [calendarShown, setCalendarShown] = useState(false);
 
 
-    return (
-        <div className="Outer">
-            {calendarShown && <FloatingCalendar onClose={() => setCalendarShown(false)}/>}
-            <div className="header">
-                <h2>Proto-Ping</h2>
-            </div>
+    return (<div>
+            {!isLogged && <Login userHandler={setIsLogged}/>}
+            {isLogged && <div>
+                {calendarShown && <FloatingCalendar onClose={() => setCalendarShown(false)}/>}
+                <div className="header">
+                    <h2>Proto-Ping</h2>
+                </div>
 
-            <div className="App" style={{display: 'flex'}}>
-                <SideBar createNewTab={createNewTab} showCalendar={() => setCalendarShown(true)}/>
-                <WorkArea ref={workAreaRef}/>
-            </div>
+                <div className="App" style={{display: 'flex'}}>
+                    <SideBar createNewTab={createNewTab} showCalendar={() => setCalendarShown(true)}/>
+                    <WorkArea ref={workAreaRef}/>
+                </div>
+            </div>}
         </div>
 
     );
