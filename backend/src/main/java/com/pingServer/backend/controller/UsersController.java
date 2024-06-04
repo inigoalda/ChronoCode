@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class UsersController {
     @Autowired
     private UserService userService;

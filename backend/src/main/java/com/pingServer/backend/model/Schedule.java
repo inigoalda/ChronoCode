@@ -11,7 +11,7 @@ public class Schedule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long scheduleId;
 
     private String name;
     private String description;
@@ -25,25 +25,27 @@ public class Schedule {
     private LocalDateTime start_date;
     private LocalDateTime end_date;
 
+
     @ManyToOne()
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "calendar_id")
+    private Calendar calendar;
 
-    public User getUser() {
-        return user;
+    public Calendar getCalendar() {
+        return calendar;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCalendar(Calendar calendar) {
+        this.calendar = calendar;
     }
 
-    public Long getId() {
-        return id;
+    public Long getScheduleId() {
+        return scheduleId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setScheduleId(Long scheduleId) {
+        this.scheduleId = scheduleId;
     }
+
 
     public String getName() {
         return name;
