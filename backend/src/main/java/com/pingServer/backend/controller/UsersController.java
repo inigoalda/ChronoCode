@@ -14,10 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
+@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
 @RestController
 public class UsersController {
-
     @Autowired
     private UserService userService;
 
@@ -35,6 +34,7 @@ public class UsersController {
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
+
 
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Response loginUser(@RequestBody final User user)

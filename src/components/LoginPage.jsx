@@ -26,12 +26,16 @@ const LoginPage = (props) => {
                 },
                 body: JSON.stringify(loginData),
             });
-
             if (response.ok) {
                 const data = await response.json();
-                console.log('Login successful', data);
-                setError('');
-                props.userHandler(true);
+                if (data.statusCode === 200) {
+                    setError("");
+                    props.userHandler(true);
+                }
+                else {
+                    setError(data.message || "Login failed");
+                }
+                
             } else {
                 const errorData = await response.json();
                 setError(errorData.message || 'Login failed');
