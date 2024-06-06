@@ -1,5 +1,6 @@
 package com.pingServer.backend.service;
 
+import com.pingServer.backend.model.Calendar;
 import com.pingServer.backend.model.User;
 import com.pingServer.backend.repository.UserRepository;
 import com.pingServer.backend.security.PasswordAuthentication;
@@ -51,17 +52,25 @@ public class UserService {
         return true;
     }
 
-    public boolean loginUser(User user) {
+    public User loginUser(User user) {
         User u = userRepository.findByUsername(user.getUsername());
         if (u != null)
         {
-            return passwordAuthentication.authenticate(user.getPassword().toCharArray(), u.getPassword());
-
+            if (passwordAuthentication.authenticate(user.getPassword().toCharArray(), u.getPassword())) {
+                user.setUserId(u.getUserId());
+                return u;
+            }
         }
-        return false;
+        return null;
     }
 
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
+    }
+
+    public List<Calendar> AllCalendars(User user)
+    {
+        //return userRepository.findAllByUserId(user);
+        return null;
     }
 }
