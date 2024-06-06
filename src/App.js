@@ -10,17 +10,31 @@ import Login from './components/Login';
 function App() {
 
     const workAreaRef = useRef();
+    const sideBarRef = useRef();
 
     const createNewTab = () => {
         workAreaRef.current.onNewTab();
     };
 
-    const [isLogged, setIsLogged] = useState(false);
+    const logoutUser = () => {
+        setIsLogged("");
+    }
+
+    const openFile = () => {
+        workAreaRef.current.onOpenFile();
+        sideBarRef.current.handleCloseMenu();
+    }
+
+    const saveFile = () => {
+        workAreaRef.current.onSaveFile();
+        sideBarRef.current.handleCloseMenu();
+    }
+
+    const [isLogged, setIsLogged] = useState("");
     const [calendarShown, setCalendarShown] = useState(false);
 
-
     return (<div>
-            {!isLogged && <Login userHandler={setIsLogged}/>}
+            {!isLogged && <Login userHandler={(username) => setIsLogged(username)}/>}
             {isLogged && <div>
                 {calendarShown && <FloatingCalendar onClose={() => setCalendarShown(false)}/>}
                 <div className="header">
@@ -28,7 +42,7 @@ function App() {
                 </div>
 
                 <div className="App" style={{display: 'flex'}}>
-                    <SideBar createNewTab={createNewTab} showCalendar={() => setCalendarShown(true)}/>
+                    <SideBar createNewTab={createNewTab} showCalendar={() => setCalendarShown(true)} logoutUser={logoutUser} openFile={openFile} ref={sideBarRef} saveFile={saveFile}/>
                     <WorkArea ref={workAreaRef}/>
                 </div>
             </div>}

@@ -1,4 +1,4 @@
-import React, {useState, useRef} from "react";
+import React, {useState, useRef, useImperativeHandle, forwardRef} from "react";
 import IconItem from "./IconItem";
 import OptionsMenu from "./OptionsMenu";
 import "./SideBar.css";
@@ -6,7 +6,13 @@ import {
     VscMenu, VscFiles, VscSearch, VscSourceControl, VscCalendar, VscAccount, VscSettingsGear, VscTerminal
 } from "react-icons/vsc";
 
-function SideBar({createNewTab, showCalendar}) {
+const SideBar = forwardRef((props, ref) => {
+    useImperativeHandle(ref, () => ({
+        handleCloseMenu() {
+            setMenuVisible(false);
+        },
+    }));
+
     const [activeIcon, setActiveIcon] = useState(null);
     const [isMenuVisible, setMenuVisible] = useState(false);
     const menuRef = useRef(null);
@@ -23,11 +29,10 @@ function SideBar({createNewTab, showCalendar}) {
     };
 
     const options = [
-        {label: 'New', onClick: createNewTab},
-        {label: 'Open', onClick: () => console.log('Open clicked')},
-        {label: 'Save', onClick: () => console.log('Save clicked')},
-        {label: 'Save As', onClick: () => console.log('Save As clicked')},
-        {label: 'Exit', onClick: () => console.log('Exit clicked')},
+        {label: 'New', onClick: props.createNewTab},
+        {label: 'Open', onClick: props.openFile},
+        {label: 'Save As', onClick: props.saveFile},
+        {label: 'Exit', onClick: props.logoutUser},
         // Add more options as needed
     ];
 
@@ -64,7 +69,7 @@ function SideBar({createNewTab, showCalendar}) {
                 />
                 <IconItem
                     icon={VscCalendar}
-                    onClick={() => showCalendar()}
+                    onClick={() => props.showCalendar()}
                     isActive={activeIcon === 'VscCalendar'}
                 />
             </div>
@@ -88,6 +93,6 @@ function SideBar({createNewTab, showCalendar}) {
             </div>
         </div>
     );
-}
+}   );
 
 export default SideBar;

@@ -11,7 +11,6 @@ function OptionsMenu({isVisible, options, onClose}) {
                 onClose();
             }
         };
-
         document.addEventListener('mousedown', handleClickOutside);
 
         return () => {

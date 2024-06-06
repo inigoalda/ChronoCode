@@ -30,7 +30,7 @@ const LoginPage = (props) => {
                 const data = await response.json();
                 if (data.statusCode === 200) {
                     setError("");
-                    props.userHandler(true);
+                    props.userHandler(username);
                 }
                 else {
                     setError(data.message || "Login failed");
