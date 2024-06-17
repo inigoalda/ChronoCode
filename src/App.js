@@ -3,6 +3,11 @@ import React, {useRef, useState} from 'react';
 import SideBar from './components/SideBar';
 import WorkArea from './components/WorkArea';
 import FloatingCalendar from "./components/FloatingCalendar";
+import {Resizable} from 're-resizable';
+import FileTree from "./components/FileTree";
+import SearchBar from "./components/SearchBar";
+import SourceControl from "./components/SourceControl";
+
 import './App.css';
 
 import Login from './components/Login';
@@ -11,6 +16,11 @@ function App() {
 
     const workAreaRef = useRef();
     const sideBarRef = useRef();
+
+    const [showBar, setShowBar] = useState(false);
+    const [currentBar, setCurrentBar] = useState("");
+
+    console.log(currentBar)
 
     const createNewTab = () => {
         workAreaRef.current.onNewTab();
@@ -30,7 +40,20 @@ function App() {
         sideBarRef.current.handleCloseMenu();
     }
 
-    const [isLogged, setIsLogged] = useState("");
+    const setBar = (bar) => {
+        if (!bar) {
+            setShowBar(false);
+            return;
+        }
+        if (currentBar === bar) {
+            setShowBar(!showBar);
+        } else {
+            setShowBar(true);
+            setCurrentBar(bar);
+        }
+    }
+
+    const [isLogged, setIsLogged] = useState("asdf");
     const [calendarShown, setCalendarShown] = useState(false);
 
     return (<div>
@@ -42,7 +65,35 @@ function App() {
                 </div>
 
                 <div className="App" style={{display: 'flex'}}>
-                    <SideBar createNewTab={createNewTab} showCalendar={() => setCalendarShown(true)} logoutUser={logoutUser} openFile={openFile} ref={sideBarRef} saveFile={saveFile}/>
+                    <SideBar createNewTab={createNewTab} showCalendar={() => setCalendarShown(true)}
+                             logoutUser={logoutUser} openFile={openFile} ref={sideBarRef} saveFile={saveFile}
+                                setShowBar={setBar}/>
+                    {showBar && (
+                        <Resizable
+                            className={"bar"}
+                            defaultSize={{
+                                width: 250,
+                            }}
+                            enable={{
+                                top: false,
+                                right: true,
+                                bottom: false,
+                                left: false,}}
+                            onResize={(event, direction, ref, d) => {
+                                if (ref.offsetWidth < 100) {
+                                    sideBarRef.current.handleActiveClose();
+                                    setShowBar(false);
+                                }
+
+                            }}
+                        >
+                            <div className="bar">
+                                {currentBar === 'VscFiles' && <FileTree/>}
+                                {currentBar === 'VscSearch' && <SearchBar/>}
+                                {currentBar === 'VscSourceControl' && <SourceControl/>}
+                            </div>
+                        </Resizable>
+                    )}
                     <WorkArea ref={workAreaRef}/>
                 </div>
             </div>}

@@ -11,6 +11,9 @@ const SideBar = forwardRef((props, ref) => {
         handleCloseMenu() {
             setMenuVisible(false);
         },
+        handleActiveClose() {
+            setActiveIcon(null);
+        }
     }));
 
     const [activeIcon, setActiveIcon] = useState(null);
@@ -22,9 +25,11 @@ const SideBar = forwardRef((props, ref) => {
             setMenuVisible(!isMenuVisible);
         } else if (iconName === activeIcon) {
             setActiveIcon(null);
-        } else {
+            props.setShowBar(null);
+        } else if (iconName === 'VscFiles' || iconName === 'VscSearch' || iconName === 'VscSourceControl') {
             setMenuVisible(false);
             setActiveIcon(iconName);
+            props.setShowBar(iconName);
         }
     };
 

@@ -5,6 +5,7 @@
     top: 0;
     left: 0;
     width: 49px;
+    min-width: 49px;
     position: relative;
     height: calc(100vh - 35px);
     background-color: #181818;

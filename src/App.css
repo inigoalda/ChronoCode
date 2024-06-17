@@ -21,3 +21,11 @@ body {
     height: 100vh;
     width: 100vw;
 }
+
+.bar {
+    background-color: #181818;
+    color: #868686;
+    box-sizing: border-box;
+    border-right: 1px solid #2B2B2B;
+    overflow: hidden;
+}

@@ -1,0 +1,18 @@
+.source-control {
+    white-space: nowrap;
+    overflow-x: hidden;
+    height: calc(100vh - 35px);
+    overflow-y: scroll;
+}
+
+.source-control::-webkit-scrollbar {
+    width: 7px;
+}
+
+.source-control::-webkit-scrollbar-thumb {
+    background: #393838;
+}
+
+.source-control::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
