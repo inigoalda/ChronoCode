@@ -2,7 +2,7 @@ import React, {useRef, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import './OptionsMenu.css';
 
-function OptionsMenu({isVisible, options, onClose}) {
+function OptionsMenu({isVisible, options, onClose, top, left}) {
     const menuRef = useRef(null);
 
     useEffect(() => {
@@ -21,7 +21,7 @@ function OptionsMenu({isVisible, options, onClose}) {
     if (!isVisible) return null;
 
     return (
-        <div ref={menuRef} className="options-menu">
+        <div ref={menuRef} className="options-menu" style={{top, left}}>
             {options.map((option, index) => (
                 <div key={index} className="options-menu-item" onClick={option.onClick}>
                     {option.label}

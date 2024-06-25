@@ -19,11 +19,15 @@ const SideBar = forwardRef((props, ref) => {
     const [activeIcon, setActiveIcon] = useState(null);
     const [isMenuVisible, setMenuVisible] = useState(false);
     const menuRef = useRef(null);
+    const [accountVisible, setAccountVisible] = useState(false);
 
     const handleIconClick = (iconName) => {
         if (iconName === 'VscMenu') {
             setMenuVisible(!isMenuVisible);
-        } else if (iconName === activeIcon) {
+        } else if (iconName === 'VscSettingsGear') {
+            setAccountVisible(!accountVisible);
+        }
+        else if (iconName === activeIcon) {
             setActiveIcon(null);
             props.setShowBar(null);
         } else if (iconName === 'VscFiles' || iconName === 'VscSearch' || iconName === 'VscSourceControl') {
@@ -42,6 +46,13 @@ const SideBar = forwardRef((props, ref) => {
         // Add more options as needed
     ];
 
+    const settingsOptions = [
+        // about opens on a new tab a github page with the project
+        {label: 'About', onClick: () => window.open('https://github.com/inigoalda/Proto-Ping', '_blank')},
+        {label: 'Sign Out', onClick: props.logoutUser},
+        // Add more options as needed
+    ];
+
     const handleCloseMenu = () => {
         setMenuVisible(false);
     };
@@ -57,7 +68,7 @@ const SideBar = forwardRef((props, ref) => {
                     onClick={() => handleIconClick('VscMenu')}
                     isActive={false}
                 />
-                <OptionsMenu isVisible={isMenuVisible} options={options} onClose={handleCloseMenu}/>
+                <OptionsMenu isVisible={isMenuVisible} options={options} onClose={handleCloseMenu} top="0px" left="48px"/>
                 <IconItem
                     icon={VscFiles}
                     onClick={() => handleIconClick('VscFiles')}
@@ -81,16 +92,7 @@ const SideBar = forwardRef((props, ref) => {
             </div>
             {/* BOTTOM ICONS */}
             <div className="left-bar-bottom">
-                <IconItem
-                    icon={VscTerminal}
-                    onClick={() => handleIconClick('VscTerminal')}
-                    isActive={false}
-                />
-                <IconItem
-                    icon={VscAccount}
-                    onClick={() => handleIconClick('VscAccount')}
-                    isActive={false}
-                />
+                <OptionsMenu isVisible={accountVisible} options={settingsOptions} onClose={() => setAccountVisible(false)} top="calc(100% - 62px)" left="48px"/>
                 <IconItem
                     icon={VscSettingsGear}
                     onClick={() => handleIconClick('VscSettingsGear')}
