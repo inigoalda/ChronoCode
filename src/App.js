@@ -78,7 +78,7 @@ function App() {
                 {calendarShown && <FloatingCalendar onClose={() => setCalendarShown(false)}/>}
                 <div className="header">
                     <h2>ChronoCode</h2>
-                    <TbInfinity style={{marginTop: "5px", fontSize: '30px', color: 'white'}}/>
+                    <TbInfinity style={{marginTop: "3px", fontSize: '30px', color: 'white'}}/>
                 </div>
 
                 <div className="App" style={{display: 'flex'}}>
