@@ -89,13 +89,7 @@ const WorkArea = forwardRef((props, ref) => {
                 throw new Error('Folder not found');
             }
             const data = await response.json();
-            const newTabs = data.files.map((file, index) => {
-                return {
-                    key: tabs.length + index + 1, title: file.name, content: file.content, language: file.language, path: file.path
-                };
-            });
-            setTabs([...tabs, ...newTabs]);
-            setActiveTab(newTabs[0]);
+            props.handleSetData(data);
         } catch (error) {
             setError(error.message);
         } finally {

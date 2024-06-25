@@ -19,7 +19,8 @@ function App() {
 
     const [showBar, setShowBar] = useState(false);
     const [currentBar, setCurrentBar] = useState("");
-
+    const [data, setData] = useState(null);
+    
     console.log(currentBar)
 
     const createNewTab = () => {
@@ -58,6 +59,11 @@ function App() {
         }
     }
 
+    const handleSetData = (data) => {
+        // must parse the json here
+        setData(data);
+    }
+
     const [isLogged, setIsLogged] = useState("asdf");
     const [calendarShown, setCalendarShown] = useState(false);
 
@@ -93,13 +99,13 @@ function App() {
                             }}
                         >
                             <div className="bar">
-                                {currentBar === 'VscFiles' && <FileTree/>}
+                                {currentBar === 'VscFiles' && <FileTree data={data} openFolder={openFolder}/>}
                                 {currentBar === 'VscSearch' && <SearchBar/>}
                                 {currentBar === 'VscSourceControl' && <SourceControl/>}
                             </div>
                         </Resizable>
                     )}
-                    <WorkArea ref={workAreaRef}/>
+                    <WorkArea ref={workAreaRef} handleSetData={handleSetData}/>
                 </div>
             </div>}
         </div>
