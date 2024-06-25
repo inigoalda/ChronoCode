@@ -35,6 +35,11 @@ function App() {
         sideBarRef.current.handleCloseMenu();
     }
 
+    const openFolder = () => {
+        workAreaRef.current.onOpenFolder();
+        sideBarRef.current.handleCloseMenu();
+    }
+
     const saveFile = () => {
         workAreaRef.current.onSaveFile();
         sideBarRef.current.handleCloseMenu();
@@ -67,7 +72,7 @@ function App() {
                 <div className="App" style={{display: 'flex'}}>
                     <SideBar createNewTab={createNewTab} showCalendar={() => setCalendarShown(true)}
                              logoutUser={logoutUser} openFile={openFile} ref={sideBarRef} saveFile={saveFile}
-                                setShowBar={setBar}/>
+                                setShowBar={setBar} openFolder={openFolder}/>
                     {showBar && (
                         <Resizable
                             className={"bar"}

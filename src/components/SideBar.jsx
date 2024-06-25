@@ -35,8 +35,9 @@ const SideBar = forwardRef((props, ref) => {
 
     const options = [
         {label: 'New', onClick: props.createNewTab},
-        {label: 'Open', onClick: props.openFile},
-        {label: 'Save As', onClick: props.saveFile},
+        {label: 'Open File', onClick: props.openFile},
+        {label: 'Open Folder', onClick: props.openFolder},
+        {label: 'Save', onClick: props.saveFile},
         {label: 'Exit', onClick: props.logoutUser},
         // Add more options as needed
     ];
