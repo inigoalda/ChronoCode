@@ -7,6 +7,7 @@ import {Resizable} from 're-resizable';
 import FileTree from "./components/FileTree";
 import SearchBar from "./components/SearchBar";
 import SourceControl from "./components/SourceControl";
+import { TbInfinity } from "react-icons/tb";
 
 import './App.css';
 
@@ -76,7 +77,8 @@ function App() {
             {isLogged && <div>
                 {calendarShown && <FloatingCalendar onClose={() => setCalendarShown(false)}/>}
                 <div className="header">
-                    <h2>Proto-Ping</h2>
+                    <h2>ChronoCode</h2>
+                    <TbInfinity style={{marginTop: "5px", fontSize: '30px', color: 'white'}}/>
                 </div>
 
                 <div className="App" style={{display: 'flex'}}>
