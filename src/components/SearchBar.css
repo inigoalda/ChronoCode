@@ -20,10 +20,7 @@
 
 .search-bar {
     width: 80%;
-    padding: 10px;
-    margin-bottom: 10px;
     border: 1px solid #3C3C3C;
-    border-radius: 4px;
     box-sizing: border-box;
     resize: none;
     overflow: hidden;
@@ -47,9 +44,9 @@
     background-color: #017BFE;
     color: white;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* VS Code font */
 }
 
 .search-button:hover {
