@@ -20,6 +20,10 @@ function App() {
     const [showBar, setShowBar] = useState(false);
     const [currentBar, setCurrentBar] = useState("");
     const [data, setData] = useState(null);
+
+    const handleOnResultClick = (result) => {
+        workAreaRef.current.onSetActiveTab(result);
+    }
     
     const createNewTab = () => {
         workAreaRef.current.onNewTab();
@@ -100,7 +104,7 @@ function App() {
                         >
                             <div className="bar">
                                 {currentBar === 'VscFiles' && <FileTree data={data} openFolder={openFolder}/>}
-                                {currentBar === 'VscSearch' && <SearchBar data={data} openFolder={openFolder} tabs={tabs}/>}
+                                {currentBar === 'VscSearch' && <SearchBar data={data} openFolder={openFolder} tabs={tabs} onResultClick={handleOnResultClick}/>}
                                 {currentBar === 'VscSourceControl' && <SourceControl/>}
                             </div>
                         </Resizable>

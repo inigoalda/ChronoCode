@@ -1,45 +1,39 @@
-/* Result.css */
-
-:root {
-    --vscode-background: #1e1e1e;
-    --vscode-foreground: #d4d4d4;
-    --vscode-border: #3c3c3c;
-    --vscode-highlight-bg: #264f78;
-    --vscode-highlight-fg: #ffffff;
-    --vscode-title-fg: #569cd6;
-    --vscode-line-fg: #c586c0;
+.result {
+    padding: 10px;
+    border: 1px solid #3C3C3C;
+    margin-bottom: 10px;
 }
 
-.result {
-    border: 1px solid var(--vscode-border);
-    border-radius: 4px;
-    padding: 16px;
-    margin-bottom: 12px;
-    background-color: var(--vscode-background);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+.result:hover {
+    background-color: #2E2E2E;
+    cursor: pointer;
 }
 
 .result-title {
-    font-size: 18px;
     font-weight: bold;
-    color: var(--vscode-title-fg);
-    margin-bottom: 8px;
+    margin-bottom: 5px;
 }
 
 .result-line {
-    font-size: 14px;
-    color: var(--vscode-line-fg);
-    margin-bottom: 12px;
+    font-style: italic;
+    margin-bottom: 5px;
 }
 
 .result-content {
-    font-size: 16px;
-    color: var(--vscode-foreground);
-    line-height: 1.5;
+    font-family: monospace;
+    white-space: pre-wrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
 }
 
-.highlight {
-    background-color: var(--vscode-highlight-bg);
-    color: var(--vscode-highlight-fg);
+.result-highlight {
+    background-color: #ff0;
     font-weight: bold;
+}
+
+.result-path {
+    font-size: 0.8em;
+    color: #777;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }

@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useState } from 'react';
+import React, { forwardRef, useImperativeHandle, useState, useRef } from 'react';
 import './WorkArea.css';
 
 import TabBar from './TabBar';
@@ -8,6 +8,8 @@ import FileSelectorError from './FileSelectorError';
 import FolderSelector from './FolderSelector';
 
 const WorkArea = forwardRef((props, ref) => {
+    const editorRef = useRef(null);
+
     useImperativeHandle(ref, () => ({
         onNewTab() {
             handleNewTab();
@@ -20,6 +22,14 @@ const WorkArea = forwardRef((props, ref) => {
         },
         onSaveFile() {
             // Implement save file logic here
+        },
+        onSetActiveTab(result) {
+            let tab = props.tabs.find(t => t.key === result.key);
+            setActiveTab(tab);
+            if (editorRef.current) {
+                editorRef.current.setPosition({ lineNumber: result.line, column: result.position });
+                editorRef.current.focus();
+            }
         }
     }));
 
@@ -42,7 +52,7 @@ const WorkArea = forwardRef((props, ref) => {
 
     const handleNewTab = () => {
         const newTab = {
-            key: props.tabs.length + 1, title: `New File`, content: '', language: 'java', path: ''
+            key: props.tabs.length + 1, title: `New File`, content: '', language: 'text', path: ''
         };
         props.setTabs([...props.tabs, newTab]);
         setActiveTab(newTab);
@@ -106,15 +116,15 @@ const WorkArea = forwardRef((props, ref) => {
             {showFolderSelector && <FolderSelector onSubmitFolder={handleFolderSubmit} />}
             {loading && <div className="loading-overlay">Loading...</div>}
             {error && <FileSelectorError message={error} onClose={handleCloseError} />}
-            <TabBar 
-                tabs={props.tabs} 
-                activeTab={activeTab} 
+            <TabBar
+                tabs={props.tabs}
+                activeTab={activeTab}
                 onTabClick={handleTabClick}
-                onCloseTab={handleCloseTab} 
-                onNewTab={handleNewTab} 
-                onTabChange={handleTabChange} 
+                onCloseTab={handleCloseTab}
+                onNewTab={handleNewTab}
+                onTabChange={handleTabChange}
             />
-            <MonacoEditor tab={activeTab} handleContentChange={handleTabChange} />
+            <MonacoEditor ref={editorRef} tab={activeTab} handleContentChange={handleTabChange} />
         </div>
     );
 });

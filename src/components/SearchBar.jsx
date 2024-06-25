@@ -9,52 +9,44 @@ const SearchBar = (props) => {
     const [loading, setLoading] = useState(false);
     const [results, setResults] = useState([]);
 
-
     const handleSearch = () => {
         let results = [];
         setLoading(true);
         if (props.tabs) {
-        props.tabs.forEach(tab => {
-        const content = tab.content;
-        const language = tab.language;
-        const path = tab.path;
-        const title = tab.title;
-        const lines = content.split("\n");
-        lines.forEach((line, index) => {
-            let i = 0;
-            while (i < line.length) {
-                i = line.indexOf(search, i);
-                if (i === -1) {
-                    break;
-                }
-                const start = i - 3 < 0 ? 0 : i - 3;
-                const end = i + search.length + 3 > line.length ? line.length : i + search.length + 3;
-                let res = line.slice(start, end);
-                if (start !== 0) {
-                    res = "..." + res;
-                }
-                if (end !== line.length) {
-                    res = res + "...";
-                }
-                results.push(
-                    {
-                        title: title,
-                        content: res,
-                        path: path,
-                        line: index + 1,
-                        position: i,
-                        language: language
+            props.tabs.forEach(tab => {
+                const key = tab.key;
+                const content = tab.content;
+                const language = tab.language;
+                const path = tab.path;
+                const title = tab.title;
+                const lines = content.split("\n");
+                lines.forEach((line, index) => {
+                    let i = 0;
+                    while (i < line.length) {
+                        i = line.indexOf(search, i);
+                        if (i === -1) {
+                            break;
+                        }
+                        results.push(
+                            {
+                                key: key,
+                                title: title,
+                                content: line,
+                                path: path,
+                                line: index + 1,
+                                position: i,
+                                language: language
+                            }
+                        );
+                        i += search.length;
                     }
-                );
-                i += search.length;
-            }
-        });
-    });
-}
+                });
+            });
+        }
 
         if (props.data) {
             // TODO
-            
+
         }
         setResults(results);
         setLoading(false);
@@ -96,7 +88,7 @@ const SearchBar = (props) => {
                 <button className="search-button" onClick={handleSearch}>Search</button>
                 {loading && <p>Loading...</p>}
                 <div className="search-results">
-                    {results.map((result, index) => <Result key={index} result={result} query={search} />)}
+                    {results.map((result, index) => <Result key={index} result={result} query={search} onClick={() => props.onResultClick(result)}/>)}
                 </div>
             </div>
         </div>

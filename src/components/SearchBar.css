@@ -61,11 +61,19 @@
     height: calc(100vh - 200px);
     margin-top: 10px;
     overflow-y: scroll;
-    padding: 10px;
-    border: 1px solid #3C3C3C;
-    border-radius: 4px;
     box-sizing: border-box;
-    background-color: #1E1E1E;
     color: #D4D4D4;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* VS Code font */
+}
+
+.search-results::-webkit-scrollbar {
+    width: 7px;
+}
+
+.search-results::-webkit-scrollbar-thumb {
+    background: #393838;
+}
+
+.search-results::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
