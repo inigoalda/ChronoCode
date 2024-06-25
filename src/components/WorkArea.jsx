@@ -23,7 +23,6 @@ const WorkArea = forwardRef((props, ref) => {
         }
     }));
 
-    const [tabs, setTabs] = useState([]);
     const [activeTab, setActiveTab] = useState(null);
     const [showFileSelector, setShowFileSelector] = useState(false);
     const [showFolderSelector, setShowFolderSelector] = useState(false);
@@ -38,20 +37,20 @@ const WorkArea = forwardRef((props, ref) => {
         if (tab === activeTab) {
             setActiveTab(null);
         }
-        setTabs(tabs.filter(t => t !== tab));
+        props.setTabs(props.tabs.filter(t => t !== tab));
     };
 
     const handleNewTab = () => {
         const newTab = {
-            key: tabs.length + 1, title: `New File`, content: '', language: 'java', path: ''
+            key: props.tabs.length + 1, title: `New File`, content: '', language: 'java', path: ''
         };
-        setTabs([...tabs, newTab]);
+        props.setTabs([...props.tabs, newTab]);
         setActiveTab(newTab);
     };
 
     const handleTabChange = (tab, value) => {
         tab.content = value;
-        setTabs([...tabs]);
+        props.setTabs([...props.tabs]);
     };
 
     const handleFileSubmit = async (filename) => {
@@ -67,9 +66,9 @@ const WorkArea = forwardRef((props, ref) => {
             }
             const data = await response.json();
             const newTab = {
-                key: tabs.length + 1, title: filename, content: data.content, language: data.language, path: filename
+                key: props.tabs.length + 1, title: filename, content: data.content, language: data.language, path: filename
             };
-            setTabs([...tabs, newTab]);
+            props.setTabs([...props.tabs, newTab]);
             setActiveTab(newTab);
         } catch (error) {
             setError(error.message);
@@ -108,7 +107,7 @@ const WorkArea = forwardRef((props, ref) => {
             {loading && <div className="loading-overlay">Loading...</div>}
             {error && <FileSelectorError message={error} onClose={handleCloseError} />}
             <TabBar 
-                tabs={tabs} 
+                tabs={props.tabs} 
                 activeTab={activeTab} 
                 onTabClick={handleTabClick}
                 onCloseTab={handleCloseTab} 

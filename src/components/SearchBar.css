@@ -1,18 +1,71 @@
-.search-bar {
-    white-space: nowrap;
-    overflow-x: hidden;
-    height: calc(100vh - 35px);
-    overflow-y: scroll;
-}
-
-.search-bar::-webkit-scrollbar {
+.search-bar-wrapper::-webkit-scrollbar {
     width: 7px;
 }
 
-.search-bar::-webkit-scrollbar-thumb {
+.search-bar-wrapper::-webkit-scrollbar-thumb {
     background: #393838;
 }
 
-.search-bar::-webkit-scrollbar-thumb:hover {
+.search-bar-wrapper::-webkit-scrollbar-thumb:hover {
     background: #555;
+}
+
+.search-bar-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: calc(100vh - 100px);
+}
+
+.search-bar {
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #3C3C3C;
+    border-radius: 4px;
+    box-sizing: border-box;
+    resize: none;
+    overflow: hidden;
+    background-color: #1E1E1E;
+    color: #D4D4D4;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* VS Code font */
+}
+
+.search-bar:focus {
+    outline: none;
+    border-color: #017BFE;
+}
+
+.search-bar::placeholder {
+    color: #8C8C8C;
+}
+
+.search-button {
+    width: 80%;
+    padding: 10px;
+    background-color: #017BFE;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-button:hover {
+    background-color: #0056b3;
+}
+
+.search-results {
+    width: 80%;
+    height: calc(100vh - 200px);
+    margin-top: 10px;
+    overflow-y: scroll;
+    padding: 10px;
+    border: 1px solid #3C3C3C;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #1E1E1E;
+    color: #D4D4D4;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* VS Code font */
 }

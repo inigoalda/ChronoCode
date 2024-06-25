@@ -21,8 +21,6 @@ function App() {
     const [currentBar, setCurrentBar] = useState("");
     const [data, setData] = useState(null);
     
-    console.log(currentBar)
-
     const createNewTab = () => {
         workAreaRef.current.onNewTab();
     };
@@ -66,6 +64,8 @@ function App() {
 
     const [isLogged, setIsLogged] = useState("asdf");
     const [calendarShown, setCalendarShown] = useState(false);
+    const [tabs, setTabs] = useState([]);
+
 
     return (<div>
             {!isLogged && <Login userHandler={(username) => setIsLogged(username)}/>}
@@ -100,12 +100,12 @@ function App() {
                         >
                             <div className="bar">
                                 {currentBar === 'VscFiles' && <FileTree data={data} openFolder={openFolder}/>}
-                                {currentBar === 'VscSearch' && <SearchBar/>}
+                                {currentBar === 'VscSearch' && <SearchBar data={data} openFolder={openFolder} tabs={tabs}/>}
                                 {currentBar === 'VscSourceControl' && <SourceControl/>}
                             </div>
                         </Resizable>
                     )}
-                    <WorkArea ref={workAreaRef} handleSetData={handleSetData}/>
+                    <WorkArea ref={workAreaRef} handleSetData={handleSetData} tabs={tabs} setTabs={setTabs}/>
                 </div>
             </div>}
         </div>
