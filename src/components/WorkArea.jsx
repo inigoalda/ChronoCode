@@ -6,6 +6,7 @@ import MonacoEditor from './MonacoEditor';
 import FileSelector from './FileSelector';
 import FileSelectorError from './FileSelectorError';
 import FolderSelector from './FolderSelector';
+import FilenameDialog from './FilenameDialog';
 
 const WorkArea = forwardRef((props, ref) => {
     const editorRef = useRef(null);
@@ -21,7 +22,11 @@ const WorkArea = forwardRef((props, ref) => {
             setShowFolderSelector(true);
         },
         onSaveFile() {
-            // Implement save file logic here
+            if (!activeTab) {
+                setError('No file to save');
+                return;
+            }
+            setShowFilenameDialog(true);
         },
         onSetActiveTab(result) {
             let tab = props.tabs.find(t => t.key === result.key);
@@ -38,6 +43,7 @@ const WorkArea = forwardRef((props, ref) => {
     const [showFolderSelector, setShowFolderSelector] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [showFilenameDialog, setShowFilenameDialog] = useState(false);
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
@@ -106,6 +112,37 @@ const WorkArea = forwardRef((props, ref) => {
         }
     };
 
+    const handleFilenameSubmit = async (filename) => {
+        setShowFilenameDialog(false);
+        if (!filename) return;
+        setLoading(true);
+        setError(null);
+        const tab = props.tabs.find(t => t === activeTab);
+        if (!tab) {
+            setError('No file to save');
+            setLoading(false);
+            return;
+        }
+        tab.path = filename;
+        tab.title = filename.split('/').pop();
+        try {
+            const response = await fetch(`https://api.example.com/files/${filename}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ content: tab.content })
+            });
+            if (!response.ok) {
+                throw new Error('Failed to save file');
+            }
+        } catch (error) {
+            setError(error.message);
+        } finally {
+            setLoading(false);
+        }
+    }
+
     const handleCloseError = () => {
         setError(null);
     };
@@ -114,6 +151,7 @@ const WorkArea = forwardRef((props, ref) => {
         <div className="work-area">
             {showFileSelector && <FileSelector onSubmitFile={handleFileSubmit} />}
             {showFolderSelector && <FolderSelector onSubmitFolder={handleFolderSubmit} />}
+            {showFilenameDialog && <FilenameDialog onSubmitFilename={handleFilenameSubmit} />}
             {loading && <div className="loading-overlay">Loading...</div>}
             {error && <FileSelectorError message={error} onClose={handleCloseError} />}
             <TabBar
