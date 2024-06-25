@@ -3,8 +3,15 @@ import { React } from 'react';
 import './SourceControl.css';
 
 const SourceControl = () => {
+    const handlePull = () => {
+        // TODO
+    };
+    const handlePush = () => {
+        // TODO
+    };
+
     return (
-        <div className={"source-control"}>
+        <div>
             <p style={
                 {
                     color: "white",
@@ -16,8 +23,13 @@ const SourceControl = () => {
             }>
                 SOURCE CONTROL
             </p>
+            <div className={"source-control"}>
+                <button className="button" onClick={handlePull}>Pull</button>
+                <button className="button" onClick={handlePush}>Push</button>
+            </div>
         </div>
-    );
+    )
+        ;
 }
 
 export default SourceControl;
