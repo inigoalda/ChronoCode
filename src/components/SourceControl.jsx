@@ -25,8 +25,10 @@ const SourceControl = () => {
             if (response.ok) {
                 const data = await response.json();
                 setFiles(data.added);
-                const merge = [...files, ...data.modified];
-                setFiles(merge);
+                setFiles(prevFiles => {
+                    const merge = [...prevFiles, ...data.modified, ...data.untracked];
+                    return merge;
+                });
             } else {
                 const errorData = await response.json();
                 setFiles(["Error"]);
@@ -43,7 +45,7 @@ const SourceControl = () => {
     };
 
     return (
-        <div>
+        <div className="MainDiv">
             <p style={{
                 color: "white",
                 margin: "0",
@@ -53,16 +55,18 @@ const SourceControl = () => {
             }}>
                 SOURCE CONTROL
             </p>
-            <ul>
-                {files.map((file, index) => (
-                    <li className="filelist" key={index}><button>ADD</button><p className="file">{file.split('/').pop()}</p><p className="path">{file}</p></li>
-                ))}
-            </ul>
+            <div className="divlistGit">
+                <ul className="Ullist">
+                    {files.map((file, index) => (
+                        <li className="filelist" key={index}><input type="checkbox"></input><p className="file">{file.split('/').pop()}</p><p className="path">{file}</p><p></p></li>
+                    ))}
+                </ul>
+            </div>
             <div className={"source-control"}>
                 <button className="button" onClick={handlePull}>{pull}</button>
                 <button className="button" onClick={handlePush}>Push</button>
             </div>
-        </div>
+        </div >
     );
 };
 
