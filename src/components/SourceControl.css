@@ -7,6 +7,14 @@
     flex: 1;
 }
 
+.commitText {
+    width: 80%;
+    height: 30px;
+    margin-bottom: 10px;
+    background-color: #818181;
+    border: #9b6969;
+}
+
 .MainDiv {
     display: flex;
     flex-direction: column;

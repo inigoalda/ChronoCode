@@ -6,6 +6,7 @@ const SourceControl = () => {
     const [pull, setPull] = useState("Pull");
     const [push, setPush] = useState("Push");
     const [filesCheck, setFilesCheck] = useState([]);
+    const [message, setMessage] = useState("");
 
     const handlePull = async () => {
         const execData = {
@@ -77,7 +78,7 @@ const SourceControl = () => {
 
         execData = {
             feature: "COMMIT",
-            params: ["test commit with front"],
+            params: [message],
             project: "useless"
         };
 
@@ -91,6 +92,37 @@ const SourceControl = () => {
                 body: JSON.stringify(execData),
             });
             if (response.ok) {
+            } else {
+                const errorData = await response.json();
+                setFiles(["Error"]);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            setFiles(["Error"]);
+        }
+
+        execData = {
+            feature: "PUSH",
+            params: [],
+            project: "useless"
+        };
+
+        try {
+            setPush("Loading...");
+            setFiles([]);
+            const response = await fetch('http://localhost:8080/api/execFeature', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(execData),
+            });
+            if (response.ok) {
+                const data = await response.json();
+                setFiles(prevFiles => {
+                    const merge = [...prevFiles, ...data.modified, ...data.untracked];
+                    return merge;
+                });
             } else {
                 const errorData = await response.json();
                 setFiles(["Error"]);
@@ -119,6 +151,10 @@ const SourceControl = () => {
         }
     };
 
+    const handleText = (e) => {
+        setMessage(e.target.value);
+    };
+
     return (
         <div className="MainDiv">
             <p style={{
@@ -138,6 +174,7 @@ const SourceControl = () => {
                 </ul>
             </div>
             <div className={"source-control"}>
+                <input className="commitText" type="text" placeholder="Message" onChange={handleText} />
                 <button className="button" onClick={handlePull}>{pull}</button>
                 <button className="button" onClick={handlePush}>{push}</button>
             </div>
