@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useState, useRef } from 'react';
+import React, {forwardRef, useImperativeHandle, useRef, useState} from 'react';
 import './WorkArea.css';
 
 import TabBar from './TabBar';
@@ -124,13 +124,12 @@ const WorkArea = forwardRef((props, ref) => {
             return;
         }
         try {
-            let temp_path = filename;
             const response = await fetch(`http://localhost:8080/api/create/file`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ path: temp_path, content: tab.content }),
+                body: JSON.stringify({ path: filename, content: tab.content }),
             });
             console.log(response);
             if (!response.ok) {
