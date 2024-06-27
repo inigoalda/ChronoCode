@@ -123,19 +123,20 @@ const WorkArea = forwardRef((props, ref) => {
             setLoading(false);
             return;
         }
-        tab.path = filename;
-        tab.title = filename.split('/').pop();
         try {
-            const response = await fetch(`https://api.example.com/files/${filename}`, {
+            const response = await fetch(`http://localhost:8080/api/create/file}`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ content: tab.content })
+                data: JSON.stringify({ path: tab.path, content: tab.content }),
             });
+            console.log(response);
             if (!response.ok) {
                 throw new Error('Failed to save file');
             }
+            tab.path = filename;
+            tab.title = filename.split('/').pop();
         } catch (error) {
             setError(error.message);
         } finally {
