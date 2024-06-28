@@ -107,7 +107,7 @@ function App() {
                             <div className="bar">
                                 {currentBar === 'VscFiles' && <FileTree data={data} openFolder={openFolder}/>}
                                 {currentBar === 'VscSearch' && <SearchBar data={data} openFolder={openFolder} tabs={tabs} onResultClick={handleOnResultClick}/>}
-                                {currentBar === 'VscSourceControl' && <SourceControl/>}
+                                {currentBar === 'VscSourceControl' && <SourceControl data={data} openFolder={openFolder}/>}
                             </div>
                         </Resizable>
                     )}

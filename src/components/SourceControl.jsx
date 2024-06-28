@@ -1,12 +1,44 @@
 import React, { useState, useEffect } from "react";
 import './SourceControl.css'
 
-const SourceControl = () => {
+const SourceControl = (props) => {
+    
     const [files, setFiles] = useState([]);
     const [pull, setPull] = useState("Pull");
     const [push, setPush] = useState("Push");
     const [filesCheck, setFilesCheck] = useState([]);
     const [message, setMessage] = useState("");
+
+    /* if (!props.data) {
+        return (
+            <div>
+                <p style={
+                    {
+                        color: "white",
+                        margin: "0",
+                        padding: "10px",
+                        paddingLeft: "20px",
+                        fontSize: "11px"
+                    }
+                }>
+                    SOURCE CONTROL
+                </p>
+                <p style={
+                    {
+                        color: "white",
+                        margin: "0",
+                        padding: "10px",
+                        paddingLeft: "20px",
+                    }
+                }>
+                    You have not yet opened a folder.
+                </p>
+                <div className="file-tree">
+                    <button className="vscode-button" onClick={props.openFolder}>Open Folder</button>
+                </div>
+            </div>);
+    } */
+    
 
     const handlePull = async () => {
         const execData = {
