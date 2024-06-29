@@ -7,6 +7,7 @@ import {Resizable} from 're-resizable';
 import FileTree from "./components/FileTree";
 import SearchBar from "./components/SearchBar";
 import SourceControl from "./components/SourceControl";
+import Maven from "./components/Maven";
 import { TbInfinity } from "react-icons/tb";
 
 import './App.css';
@@ -112,6 +113,7 @@ function App() {
                                 {currentBar === 'VscFiles' && <FileTree data={data} openFolder={openFolder} openFile={openFileWithPath}/> }
                                 {currentBar === 'VscSearch' && <SearchBar data={data} openFolder={openFolder} tabs={tabs} onResultClick={handleOnResultClick}/>}
                                 {currentBar === 'VscSourceControl' && <SourceControl data={data} openFolder={openFolder}/>}
+                                {currentBar === 'SiApachemaven' && <Maven data={data} openFolder={openFolder}/>}
                             </div>
                         </Resizable>
                     )}

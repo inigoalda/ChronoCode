@@ -3,8 +3,9 @@ import IconItem from "./IconItem";
 import OptionsMenu from "./OptionsMenu";
 import "./SideBar.css";
 import {
-    VscMenu, VscFiles, VscSearch, VscSourceControl, VscCalendar, VscAccount, VscSettingsGear, VscTerminal
+    VscMenu, VscFiles, VscSearch, VscSourceControl, VscCalendar, VscSettingsGear
 } from "react-icons/vsc";
+import { SiApachemaven } from "react-icons/si";
 
 const SideBar = forwardRef((props, ref) => {
     useImperativeHandle(ref, () => ({
@@ -30,7 +31,7 @@ const SideBar = forwardRef((props, ref) => {
         else if (iconName === activeIcon) {
             setActiveIcon(null);
             props.setShowBar(null);
-        } else if (iconName === 'VscFiles' || iconName === 'VscSearch' || iconName === 'VscSourceControl') {
+        } else if (iconName === 'VscFiles' || iconName === 'VscSearch' || iconName === 'VscSourceControl' || iconName === 'SiApachemaven') {
             setMenuVisible(false);
             setActiveIcon(iconName);
             props.setShowBar(iconName);
@@ -83,6 +84,11 @@ const SideBar = forwardRef((props, ref) => {
                     icon={VscSourceControl}
                     onClick={() => handleIconClick('VscSourceControl')}
                     isActive={activeIcon === 'VscSourceControl'}
+                />
+                <IconItem
+                    icon={SiApachemaven}
+                    onClick={() => handleIconClick('SiApachemaven')}
+                    isActive={activeIcon === 'SiApachemaven'}
                 />
                 <IconItem
                     icon={VscCalendar}
