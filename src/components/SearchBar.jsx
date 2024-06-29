@@ -9,7 +9,7 @@ const SearchBar = (props) => {
     const [loading, setLoading] = useState(false);
     const [results, setResults] = useState([]);
 
-    const handleSearch = () => {
+    const handleSearch = async () => {
         let results = [];
         setLoading(true);
         if (props.tabs) {
@@ -45,8 +45,37 @@ const SearchBar = (props) => {
         }
 
         if (props.data) {
-            // TODO
-
+            try {
+                const response = await fetch(`http://localhost:8080/api/execFeature`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ feature: "SEARCH", 
+                        params : [search], 
+                        project: "project" }), // Fix project maybe
+                });
+                if (!response.ok) {
+                    throw new Error('File not found');
+                }
+                const data = await response.json();
+                console.log(data);
+                for (const item of data.l) {
+                    console.log("Item: " + item);
+                    console.log(typeof item.line, item.line);
+                    results.push({
+                        key: item.key,
+                        title: item.title,
+                        content: item.content,
+                        path: item.path,
+                        line: item.line,
+                        position: item.position,
+                        language: ""
+                    })
+                }
+            } catch (error) {
+                console.log(error.message);
+            }
         }
         setResults(results);
         setLoading(false);
