@@ -9,7 +9,7 @@ const SourceControl = (props) => {
     const [filesCheck, setFilesCheck] = useState([]);
     const [message, setMessage] = useState("");
 
-    /* if (!props.data) {
+    const noGit = () => {
         return (
             <div>
                 <p style={
@@ -31,14 +31,30 @@ const SourceControl = (props) => {
                         paddingLeft: "20px",
                     }
                 }>
-                    You have not yet opened a folder.
+                    You have not yet opened a GIT project.
                 </p>
                 <div className="file-tree">
                     <button className="vscode-button" onClick={props.openFolder}>Open Folder</button>
                 </div>
             </div>);
-    } */
-    
+    }
+
+    if (!props.data) {
+        return noGit();
+    }
+
+    let isGit = false;
+    for (let i = 0; i < props.data.folders.length; i++) {
+        if (props.data.folders[i].folderName === ".git") {
+            isGit = true;
+            break;
+        }
+    }
+
+    if (!isGit) {
+        return noGit();
+    }
+
 
     const handlePull = async () => {
         const execData = {

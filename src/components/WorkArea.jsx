@@ -18,6 +18,37 @@ const WorkArea = forwardRef((props, ref) => {
         onOpenFile() {
             setShowFileSelector(true);
         },
+        async onOpenFileWithPath(file) {
+            let tab = props.tabs.find(t => t.path === file.path);
+            if (tab) {
+                setActiveTab(tab);
+                return;
+            }
+            let customContent;
+            try {
+                const response = await fetch(`http://localhost:8080/api/open/file`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ path: file.path }),
+                });
+                if (!response.ok) {
+                    throw new Error('File not found');
+                }
+                const data = await response.json();
+                customContent = data.content
+                const newTab = {
+                key: props.tabs.length + 1, title: file.title, content: customContent, language: file.language, path: file.path
+                };
+                props.setTabs([...props.tabs, newTab]);
+                setActiveTab(newTab);
+            } catch (error) {
+                setError(error.message);
+            } finally {
+                setLoading(false);
+            }
+        },
         onOpenFolder() {
             setShowFolderSelector(true);
         },
@@ -99,11 +130,18 @@ const WorkArea = forwardRef((props, ref) => {
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch(`https://api.example.com/folders/${foldername}`);
+            const response = await fetch(`http://localhost:8080/api/open/project`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ path: foldername }),
+            });
             if (!response.ok) {
                 throw new Error('Folder not found');
             }
             const data = await response.json();
+            console.log(data);
             props.handleSetData(data);
         } catch (error) {
             setError(error.message);

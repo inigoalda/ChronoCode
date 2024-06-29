@@ -39,6 +39,10 @@ function App() {
         sideBarRef.current.handleCloseMenu();
     }
 
+    const openFileWithPath = (file) => {
+        workAreaRef.current.onOpenFileWithPath(file);
+    }
+
     const openFolder = () => {
         workAreaRef.current.onOpenFolder();
         sideBarRef.current.handleCloseMenu();
@@ -105,7 +109,7 @@ function App() {
                             }}
                         >
                             <div className="bar">
-                                {currentBar === 'VscFiles' && <FileTree data={data} openFolder={openFolder}/>}
+                                {currentBar === 'VscFiles' && <FileTree data={data} openFolder={openFolder} openFile={openFileWithPath}/> }
                                 {currentBar === 'VscSearch' && <SearchBar data={data} openFolder={openFolder} tabs={tabs} onResultClick={handleOnResultClick}/>}
                                 {currentBar === 'VscSourceControl' && <SourceControl data={data} openFolder={openFolder}/>}
                             </div>

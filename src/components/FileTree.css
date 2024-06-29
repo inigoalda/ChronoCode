@@ -15,7 +15,6 @@
     overflow-x: hidden;
     height: calc(100vh - 35px);
     overflow-y: scroll;
-    text-align: center;
     margin: 0 20px 20px;
 }
 
