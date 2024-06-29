@@ -8,11 +8,14 @@
 }
 
 .commitText {
+    color: #D4D4D4;
+    font-size: 12px;
     width: 80%;
     height: 30px;
     margin-bottom: 10px;
-    background-color: #818181;
-    border: #9b6969;
+    background-color: #1E1E1E;
+    border: 1px solid #3C3C3C;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .MainDiv {

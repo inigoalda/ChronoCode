@@ -222,7 +222,7 @@ const SourceControl = (props) => {
                 </ul>
             </div>
             <div className={"source-control"}>
-                <input className="commitText" type="text" placeholder="Message" onChange={handleText} />
+                <input className="commitText" type="text" placeholder=" Enter a commit message..." onChange={handleText} />
                 <button className="button" onClick={handlePull}>{pull}</button>
                 <button className="button" onClick={handlePush}>{push}</button>
             </div>

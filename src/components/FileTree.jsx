@@ -32,13 +32,13 @@ const FileTree = (props) => {
     const parseData = (data) => {
         console.log(data);
         treeState = {
-            name: data.folderName,
+            name: " "+data.folderName,
             children: [],
         };
         const addFolders = (node, folders) => {
             folders.forEach(folder => {
                 let newNode = {
-                    name: folder.folderName,
+                    name: " "+folder.folderName,
                     children: [],
                 };
                 node.children.push(newNode);
@@ -49,7 +49,7 @@ const FileTree = (props) => {
         const addFiles = (node, files) => {
             files.forEach(file => {
                 let newNode = {
-                    name: file.title,
+                    name: " " + file.title,
                     customPath: file.Path,
                     language: file.language,
                 };
