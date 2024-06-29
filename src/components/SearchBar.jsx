@@ -10,6 +10,10 @@ const SearchBar = (props) => {
     const [results, setResults] = useState([]);
 
     const handleSearch = async () => {
+        if (search === "")
+        {
+            return;
+        }
         let results = [];
         setLoading(true);
         if (props.tabs) {
@@ -63,15 +67,18 @@ const SearchBar = (props) => {
                 for (const item of data.l) {
                     console.log("Item: " + item);
                     console.log(typeof item.line, item.line);
-                    results.push({
-                        key: item.key,
-                        title: item.title,
-                        content: item.content,
-                        path: item.path,
-                        line: item.line,
-                        position: item.position,
-                        language: ""
-                    })
+                    if (!results.some(result => result.path === item.path))
+                    {
+                        results.push({
+                            key: item.key,
+                            title: item.title,
+                            content: item.content,
+                            path: item.path,
+                            line: item.line,
+                            position: item.position,
+                            language: ""
+                        })
+                    }
                 }
             } catch (error) {
                 console.log(error.message);
