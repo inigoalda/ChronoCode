@@ -105,15 +105,27 @@ const WorkArea = forwardRef((props, ref) => {
         if (!filename) return;
         setLoading(true);
         setError(null);
-
         try {
-            const response = await fetch(`https://api.example.com/files/${filename}`);
+            const response = await fetch(`http://localhost:8080/api/open/file`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ path: filename }),
+            });
             if (!response.ok) {
                 throw new Error('File not found');
             }
             const data = await response.json();
+            let condTitle = "";
+            if (filename.includes('/')) {
+                condTitle = filename.split('/').pop();
+            }
+            else {
+                condTitle = filename.split('\\').pop();
+            }
             const newTab = {
-                key: props.tabs.length + 1, title: filename, content: data.content, language: data.language, path: filename
+                key: props.tabs.length + 1, title: condTitle, content: data.content, language: data.language, path: filename
             };
             props.setTabs([...props.tabs, newTab]);
             setActiveTab(newTab);
