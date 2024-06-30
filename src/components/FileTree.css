@@ -13,7 +13,7 @@
 .file-tree {
     white-space: nowrap;
     overflow-x: hidden;
-    height: calc(100vh - 35px);
+    height: calc(100vh - 75px);
     overflow-y: scroll;
     margin: 0 20px 20px;
 }
