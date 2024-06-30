@@ -3,7 +3,7 @@ import IconItem from "./IconItem";
 import OptionsMenu from "./OptionsMenu";
 import "./SideBar.css";
 import {
-    VscMenu, VscFiles, VscSearch, VscSourceControl, VscCalendar, VscSettingsGear
+    VscMenu, VscFiles, VscSearch, VscSourceControl, VscCalendar, VscSettingsGear, VscExclude
 } from "react-icons/vsc";
 import { SiApachemaven } from "react-icons/si";
 
@@ -94,6 +94,10 @@ const SideBar = forwardRef((props, ref) => {
                     icon={VscCalendar}
                     onClick={() => props.showCalendar()}
                     isActive={activeIcon === 'VscCalendar'}
+                />
+                <IconItem
+                    icon={VscExclude}
+                    onClick={() => props.openMeetingPopup()}
                 />
             </div>
             {/* BOTTOM ICONS */}

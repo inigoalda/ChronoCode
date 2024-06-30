@@ -7,6 +7,7 @@ import FileSelector from './FileSelector';
 import FileSelectorError from './FileSelectorError';
 import FolderSelector from './FolderSelector';
 import FilenameDialog from './FilenameDialog';
+import MeetingPopup from './MeetingPopup';
 
 const WorkArea = forwardRef((props, ref) => {
     const editorRef = useRef(null);
@@ -52,6 +53,9 @@ const WorkArea = forwardRef((props, ref) => {
         onOpenFolder() {
             setShowFolderSelector(true);
         },
+        onRemindNextMeeting() {
+            setShowMeetingPopup(true);
+        },
         onSaveFile() {
             if (!activeTab) {
                 setError('No file to save');
@@ -72,6 +76,7 @@ const WorkArea = forwardRef((props, ref) => {
     const [activeTab, setActiveTab] = useState(null);
     const [showFileSelector, setShowFileSelector] = useState(false);
     const [showFolderSelector, setShowFolderSelector] = useState(false);
+    const [showMeetingPopup, setShowMeetingPopup] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [showFilenameDialog, setShowFilenameDialog] = useState(false);
@@ -135,6 +140,10 @@ const WorkArea = forwardRef((props, ref) => {
             setLoading(false);
         }
     };
+
+    const handleAcknowledgeMeeting = () => {
+        setShowMeetingPopup(false);
+    }
 
     const handleFolderSubmit = async (foldername) => {
         setShowFolderSelector(false);
@@ -207,6 +216,7 @@ const WorkArea = forwardRef((props, ref) => {
         <div className="work-area">
             {showFileSelector && <FileSelector onSubmitFile={handleFileSubmit} />}
             {showFolderSelector && <FolderSelector onSubmitFolder={handleFolderSubmit} />}
+            {showMeetingPopup && <MeetingPopup onAcknowledgeMeeting={handleAcknowledgeMeeting} />}
             {showFilenameDialog && <FilenameDialog onSubmitFilename={handleFilenameSubmit} />}
             {loading && <div className="loading-overlay">Loading...</div>}
             {error && <FileSelectorError message={error} onClose={handleCloseError} />}

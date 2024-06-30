@@ -49,6 +49,10 @@ function App() {
         sideBarRef.current.handleCloseMenu();
     }
 
+    const openMeetingPopup = () => {
+        workAreaRef.current.onRemindNextMeeting();
+    }
+
     const saveFile = () => {
         workAreaRef.current.onSaveFile();
         sideBarRef.current.handleCloseMenu();
@@ -89,7 +93,7 @@ function App() {
                 <div className="App" style={{display: 'flex'}}>
                     <SideBar createNewTab={createNewTab} showCalendar={() => setCalendarShown(true)}
                              logoutUser={logoutUser} openFile={openFile} ref={sideBarRef} saveFile={saveFile}
-                                setShowBar={setBar} openFolder={openFolder}/>
+                                setShowBar={setBar} openFolder={openFolder} openMeetingPopup={openMeetingPopup}/>
                     {showBar && (
                         <Resizable
                             className={"bar"}
