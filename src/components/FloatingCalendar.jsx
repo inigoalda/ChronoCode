@@ -126,11 +126,11 @@ const FloatingCalendar = ({ onClose, userId }) => {
                         startAccessor="start"
                         endAccessor="end"
                         style={{ height: "90vh", width: "90vw" }}
-                        onEventDrop={moveEvent}
-                        onEventResize={resizeEvent}
+                        //onEventDrop={moveEvent}
+                        //onEventResize={resizeEvent}
                         defaultView="day"
-                        selectable
-                        resizable
+                        //selectable
+                        //resizable
                         eventPropGetter={(event) => {
                             return {
                                 style: {
