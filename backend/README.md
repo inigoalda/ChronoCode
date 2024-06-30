@@ -14,10 +14,10 @@ Start dockers
 ```shell
 docker compose up
 ```
-Run on http://localhost:8080
+Run on http://localhost:8081
 
 # DOC API
-http://localhost:8080/swagger-ui.html
+http://localhost:8081/swagger-ui.html
 
 
 # Security
