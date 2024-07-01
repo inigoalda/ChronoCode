@@ -6,7 +6,7 @@ const FileSelector = ({ onSubmitFile }) => {
     const [history, setHistory] = useState([]);
     const [folders, setFolders] = useState([]);
     const [files, setFiles] = useState([]);
-    const [selectedPath, setSelectedPath] = useState('');
+    const [setSelectedPath] = useState('');
     const [inputPath, setInputPath] = useState(currentPath);
     const fileSelectorRef = useRef(null);
 

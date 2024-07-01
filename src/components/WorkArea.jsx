@@ -59,6 +59,10 @@ const WorkArea = forwardRef((props, ref) => {
             }
             setShowSaveFileDialog(true);
         },
+        onSaveProject() {
+            handleSaveProject();
+            return;
+        },
         onSetActiveTab(result) {
             let tab = props.tabs.find(t => t.key === result.key);
             setActiveTab(tab);
@@ -74,6 +78,38 @@ const WorkArea = forwardRef((props, ref) => {
             return '';
         }
     }));
+
+    const handleSaveProject = async () => {
+        setLoading(true);
+        setError(null);
+        for (let i = 0; i < props.tabs.length; i++){
+            try {
+                const response = await fetch(`http://localhost:8080/api/update`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        path: props.tabs[i].path,
+                        from: 0,
+                        to: props.tabs[i].content.length - 1,
+                        content: props.tabs[i].content
+                    }),
+                });
+    
+                if (!response.ok) {
+                    throw new Error('Failed to save project');
+                }
+    
+                const data = await response;
+                console.log('Project saved successfully', data);
+            } catch (error) {
+                setError(error.message);
+            }
+        }
+        setLoading(false);
+    };
+
 
     const [activeTab, setActiveTab] = useState(null);
     const [showFileSelector, setShowFileSelector] = useState(false);
