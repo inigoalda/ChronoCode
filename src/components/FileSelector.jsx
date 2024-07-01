@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import './FileSelector.css';
 
 const FileSelector = ({ onSubmitFile }) => {
-    const [currentPath, setCurrentPath] = useState('C:\\');
+    const [currentPath, setCurrentPath] = useState('/');
     const [history, setHistory] = useState([]);
     const [folders, setFolders] = useState([]);
     const [files, setFiles] = useState([]);
