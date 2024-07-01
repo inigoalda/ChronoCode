@@ -2,47 +2,109 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    right: 0;
+    bottom: 0;
     background: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
-    backdrop-filter: blur(5px);
 }
 
 .file-selector-content {
-    background: rgba(255, 255, 255, 0.9);
+    background: #fff;
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 8px;
+    width: 450px;
+    max-height: 80%;
+    overflow-y: auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.file-explorer {
+    display: flex;
+    flex-direction: column;
+}
+
+.path {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.input-path {
     display: flex;
     align-items: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 10px;
 }
 
-.file-selector-content input {
-    margin-right: 10px;
-    padding: 15px;
-    font-size: 20px;
-    width: 400px;
+.input-path input {
+    flex: 1;
+    padding: 6px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    width: 330px;
+    height: 16px;
 }
 
-.file-selector-content button {
-    padding: 15px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
+.input-path button {
+    margin-left: 10px;
+    padding: 8px 16px;
     background-color: #007bff;
-    color: white;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
     cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s;
 }
 
-.file-selector-content button:hover {
+.input-path button:hover {
     background-color: #0056b3;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.buttons button {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.buttons button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.buttons button:hover {
+    background-color: #0056b3;
+}
+
+.folders, .files {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+
+.folder-item, .file-item {
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+
+.folder-item:hover, .file-item:hover {
+    background: #f0f0f0;
+}
+
+.empty-message {
+    margin-top: 10px;
+    color: #999;
 }
