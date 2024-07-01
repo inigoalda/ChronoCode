@@ -42,7 +42,7 @@ const FileSelector = ({ onSubmitFile }) => {
 
     const handleFileClick = (file) => {
         let selectedFilePath = "";
-        if (currentPath[-1] !== '\\' && currentPath !== "/"){
+        if (currentPath[currentPath.length - 1] !== '/' && currentPath !== "/"){
             selectedFilePath = `${currentPath}\\${file}`;
         }
         else{
