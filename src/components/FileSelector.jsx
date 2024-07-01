@@ -23,7 +23,6 @@ const FileSelector = ({ onSubmitFile }) => {
             if (!response.ok) {
                 throw new Error(`Erreur HTTP! Statut: ${response.status}`);
             }
-
             const data = await response.json();
             console.log('Données récupérées :', data);
             const { folders, files } = data;
@@ -43,7 +42,7 @@ const FileSelector = ({ onSubmitFile }) => {
 
     const handleFileClick = (file) => {
         let selectedFilePath = "";
-        if (currentPath[-1] != '\\'){
+        if (currentPath[-1] !== '\\' && currentPath !== "/"){
             selectedFilePath = `${currentPath}\\${file}`;
         }
         else{
