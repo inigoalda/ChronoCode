@@ -53,7 +53,14 @@ const FileSelector = ({ onSubmitFile }) => {
 
     const handleInputSubmit = () => {
         setHistory(prevHistory => [...prevHistory, currentPath]);
-        setCurrentPath(inputPath);
+        console.log("handleInputsubmit");
+        if (inputPath.trim() === "") {
+            console.log("here");
+            setInputPath("/");
+            setCurrentPath("/");
+        } else {
+            setCurrentPath(inputPath);
+        }
     };
 
     const handleGoBack = () => {
@@ -66,6 +73,7 @@ const FileSelector = ({ onSubmitFile }) => {
     };
 
     const handleInputChange = (event) => {
+        console.log("handleInputChange");
         setInputPath(event.target.value);
     };
 
@@ -99,7 +107,7 @@ const FileSelector = ({ onSubmitFile }) => {
                         <button onClick={handleGoBack} disabled={history.length === 0}>Back</button>
                     </div>
                     <div className="folders">
-                        <h3>Dossiers</h3>
+                        <h3>Folders</h3>
                         {folders.length === 0 && <p className="empty-message">No folder</p>}
                         {folders.map((folder, index) => (
                             <div key={index} className="folder-item" onClick={() => handleFolderClick(folder)}>
@@ -108,7 +116,7 @@ const FileSelector = ({ onSubmitFile }) => {
                         ))}
                     </div>
                     <div className="files">
-                        <h3>Fichiers</h3>
+                        <h3>Files</h3>
                         {files.length === 0 && <p className="empty-message">No file</p>}
                         {files.map((file, index) => (
                             <div key={index} className="file-item" onClick={() => handleFileClick(file)}>

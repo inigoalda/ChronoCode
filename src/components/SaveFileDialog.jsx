@@ -35,7 +35,6 @@ const SaveFileDialog = ({ onSubmitFile, onClose, currentFilePath }) => {
             }
 
             const data = await response.json();
-            console.log("Fetched data:", data);
             setFolders(data.folders);
             setFiles(data.files);
         } catch (err) {
@@ -49,7 +48,13 @@ const SaveFileDialog = ({ onSubmitFile, onClose, currentFilePath }) => {
 
     const handleInputSubmit = () => {
         setHistory([...history, currentPath]);
-        setCurrentPath(inputPath);
+        if (inputPath.trim() === "") {
+            console.log("here");
+            setInputPath("/");
+            setCurrentPath("/");
+        } else {
+            setCurrentPath(inputPath);
+        }
     };
 
     const handleGoBack = () => {
@@ -87,7 +92,7 @@ const SaveFileDialog = ({ onSubmitFile, onClose, currentFilePath }) => {
                         <button onClick={onClose}>Close</button>
                     </div>
                     <div className="folders">
-                        <h3>Dossiers</h3>
+                        <h3>Folders</h3>
                         {folders.length === 0 && <p className="empty-message">No folder</p>}
                         {folders.map((folder, index) => (
                             <div key={index} className="folder-item" onClick={() => handleFolderClick(folder)}>
@@ -96,7 +101,7 @@ const SaveFileDialog = ({ onSubmitFile, onClose, currentFilePath }) => {
                         ))}
                     </div>
                     <div className="files">
-                        <h3>Fichiers</h3>
+                        <h3>Files</h3>
                         {files.length === 0 && <p className="empty-message">No file</p>}
                         {files.map((file, index) => (
                             <div key={index} className="file-item" onClick={() => setFilename(file)}>

@@ -34,7 +34,7 @@ const FolderSelector = ({ onSubmitFolder }) => {
             setFolders(folders);
             setFiles(files);
         } catch (error) {
-            console.error('Error fetching files:', error);
+            console.error('Error fetching files:', error);                                                      
         }
     };
 
@@ -43,7 +43,7 @@ const FolderSelector = ({ onSubmitFolder }) => {
         const newPath = `${currentPath}${folder}/`;
         setCurrentPath(newPath);
         setInputPath(newPath);
-    };
+    };                                                                                                                              
 
     const handleFileClick = (file) => {
         setSelectedPath(`${currentPath}${file}`);
@@ -74,7 +74,13 @@ const FolderSelector = ({ onSubmitFolder }) => {
 
     const handleInputSubmit = () => {
         setHistory(prevHistory => [...prevHistory, currentPath]);
-        setCurrentPath(inputPath);
+        if (inputPath.trim() === "") {
+            console.log("here");
+            setInputPath("/");
+            setCurrentPath("/");
+        } else {
+            setCurrentPath(inputPath);
+        }
     };
 
     useEffect(() => {
