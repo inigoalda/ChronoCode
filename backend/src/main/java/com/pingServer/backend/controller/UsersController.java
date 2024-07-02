@@ -1,6 +1,7 @@
 package com.pingServer.backend.controller;
 
 
+import com.pingServer.backend.model.response.EventResponse;
 import com.pingServer.backend.model.response.ListResponse;
 import com.pingServer.backend.model.response.Response;
 import com.pingServer.backend.model.Schedule;
@@ -13,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @RestController
@@ -126,5 +130,46 @@ public class UsersController {
             listResponse.setMessage("Unknown user ID");
         }
         return listResponse;
+    }
+
+    @GetMapping(value = {"/nextevent/{userId}"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public EventResponse NextEventForUser(@PathVariable Integer userId)
+    {
+        EventResponse response = new EventResponse();
+
+        if(userId == null)
+        {
+            response.setStatusCode(422);
+            response.setMessage("No ID provided");
+            return response;
+        }
+
+        User u = userService.getUserById(userId.longValue());
+        if (u != null)
+        {
+            LocalDateTime localDate = LocalDateTime.now();
+            Duration shortestDuration = null;
+            Boolean inMeeting = false;
+
+            for (Schedule e : calendarService.allEvents(u)){
+                Duration duration = Duration.between(localDate, e.getStart_date());
+                if (!duration.isNegative() && (shortestDuration == null || duration.compareTo(shortestDuration) < 0)) {
+                        shortestDuration = duration;
+                } else if (duration.isNegative() && !(Duration.between(localDate, e.getEnd_date()).isNegative())){
+                    inMeeting = true;
+                }
+            }
+
+            response.setStatusCode(200);
+            response.setTimeUntilNext(shortestDuration.toMinutes());
+            response.setInMeeting(inMeeting);
+            response.setMessage("Found");
+        }
+        else
+        {
+            response.setStatusCode(422);
+            response.setMessage("Unknown user ID");
+        }
+        return response;
     }
 }
