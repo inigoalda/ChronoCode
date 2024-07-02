@@ -260,7 +260,7 @@ const WorkArea = forwardRef((props, ref) => {
                 areTabsLocked={props.areTabsLocked}
                 />}
             {!props.areTabsLocked && <MonacoEditor ref={editorRef} tab={activeTab} handleContentChange={handleTabChange}/>}
-            {props.areTabsLocked && <div className='tab-locked'>This tab is currently locked.</div>}
+            {props.areTabsLocked && <div className='tab-locked'>Tabs are currently locked.</div>}
         </div>
     );
 });
