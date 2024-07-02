@@ -58,6 +58,11 @@ function App() {
         sideBarRef.current.handleCloseMenu();
     }
 
+    const saveProject = () => {
+        workAreaRef.current.onSaveProject();
+        sideBarRef.current.handleCloseMenu();
+    }
+
     const setBar = (bar) => {
         if (!bar) {
             setShowBar(false);
@@ -92,7 +97,7 @@ function App() {
 
                 <div className="App" style={{display: 'flex'}}>
                     <SideBar createNewTab={createNewTab} showCalendar={() => setCalendarShown(true)}
-                             logoutUser={logoutUser} openFile={openFile} ref={sideBarRef} saveFile={saveFile}
+                             logoutUser={logoutUser} openFile={openFile} ref={sideBarRef} saveFile={saveFile} saveProject={saveProject}
                                 setShowBar={setBar} openFolder={openFolder} openMeetingPopup={openMeetingPopup}/>
                     {showBar && (
                         <Resizable

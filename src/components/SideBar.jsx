@@ -1,4 +1,4 @@
-import React, {useState, useRef, useImperativeHandle, forwardRef} from "react";
+import React, { useState, useRef, useImperativeHandle, forwardRef } from "react";
 import IconItem from "./IconItem";
 import OptionsMenu from "./OptionsMenu";
 import "./SideBar.css";
@@ -27,8 +27,12 @@ const SideBar = forwardRef((props, ref) => {
             setMenuVisible(!isMenuVisible);
         } else if (iconName === 'VscSettingsGear') {
             setAccountVisible(!accountVisible);
-        }
-        else if (iconName === activeIcon) {
+        } else if (iconName === 'New') {
+            setMenuVisible(false);
+            setActiveIcon(null);
+            props.setShowBar(null);
+            props.createNewTab();
+        } else if (iconName === activeIcon) {
             setActiveIcon(null);
             props.setShowBar(null);
         } else if (iconName === 'VscFiles' || iconName === 'VscSearch' || iconName === 'VscSourceControl' || iconName === 'SiApachemaven') {
@@ -39,18 +43,19 @@ const SideBar = forwardRef((props, ref) => {
     };
 
     const options = [
-        {label: 'New', onClick: props.createNewTab},
-        {label: 'Open File', onClick: props.openFile},
-        {label: 'Open Folder', onClick: props.openFolder},
-        {label: 'Save', onClick: props.saveFile},
-        {label: 'Exit', onClick: props.logoutUser},
+        { label: 'New', onClick: () => handleIconClick('New') },
+        { label: 'Open File', onClick: props.openFile },
+        { label: 'Open Folder', onClick: props.openFolder },
+        { label: 'Save', onClick: props.saveFile },
+        { label: 'Save Project', onClick: props.saveProject },
+        { label: 'Exit', onClick: props.logoutUser },
         // Add more options as needed
     ];
 
     const settingsOptions = [
         // about opens on a new tab a github page with the project
-        {label: 'About', onClick: () => window.open('https://github.com/inigoalda/Proto-Ping', '_blank')},
-        {label: 'Sign Out', onClick: props.logoutUser},
+        { label: 'About', onClick: () => window.open('https://github.com/inigoalda/Proto-Ping', '_blank') },
+        { label: 'Sign Out', onClick: props.logoutUser },
         // Add more options as needed
     ];
 
@@ -111,6 +116,6 @@ const SideBar = forwardRef((props, ref) => {
             </div>
         </div>
     );
-}   );
+});
 
 export default SideBar;

@@ -1,4 +1,4 @@
-import React, {forwardRef, useImperativeHandle, useRef, useState} from 'react';
+import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 import './WorkArea.css';
 
 import TabBar from './TabBar';
@@ -6,8 +6,8 @@ import MonacoEditor from './MonacoEditor';
 import FileSelector from './FileSelector';
 import FileSelectorError from './FileSelectorError';
 import FolderSelector from './FolderSelector';
-import FilenameDialog from './FilenameDialog';
 import MeetingPopup from './MeetingPopup';
+import SaveFileDialog from './SaveFileDialog';
 
 const WorkArea = forwardRef((props, ref) => {
     const editorRef = useRef(null);
@@ -38,9 +38,9 @@ const WorkArea = forwardRef((props, ref) => {
                     throw new Error('File not found');
                 }
                 const data = await response.json();
-                customContent = data.content
+                customContent = data.content;
                 const newTab = {
-                key: props.tabs.length + 1, title: file.title, content: customContent, language: file.language, path: file.path
+                    key: props.tabs.length + 1, title: file.title, content: customContent, language: file.language, path: file.path
                 };
                 props.setTabs([...props.tabs, newTab]);
                 setActiveTab(newTab);
@@ -61,7 +61,11 @@ const WorkArea = forwardRef((props, ref) => {
                 setError('No file to save');
                 return;
             }
-            setShowFilenameDialog(true);
+            setShowSaveFileDialog(true);
+        },
+        onSaveProject() {
+            handleSaveProject();
+            return;
         },
         onSetActiveTab(result) {
             let tab = props.tabs.find(t => t.key === result.key);
@@ -70,16 +74,54 @@ const WorkArea = forwardRef((props, ref) => {
                 editorRef.current.setPosition({ lineNumber: result.line, column: result.position });
                 editorRef.current.focus();
             }
+        },
+        getCurrentFilePath() {
+            if (activeTab) {
+                return activeTab.path || '';
+            }
+            return '';
         }
     }));
+
+    const handleSaveProject = async () => {
+        setLoading(true);
+        setError(null);
+        for (let i = 0; i < props.tabs.length; i++){
+            try {
+                const response = await fetch(`http://localhost:8080/api/update`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        path: props.tabs[i].path,
+                        from: 0,
+                        to: props.tabs[i].content.length - 1,
+                        content: props.tabs[i].content
+                    }),
+                });
+    
+                if (!response.ok) {
+                    throw new Error('Failed to save project');
+                }
+    
+                const data = await response;
+                console.log('Project saved successfully', data);
+            } catch (error) {
+                setError(error.message);
+            }
+        }
+        setLoading(false);
+    };
+
 
     const [activeTab, setActiveTab] = useState(null);
     const [showFileSelector, setShowFileSelector] = useState(false);
     const [showFolderSelector, setShowFolderSelector] = useState(false);
     const [showMeetingPopup, setShowMeetingPopup] = useState(false);
+    const [showSaveFileDialog, setShowSaveFileDialog] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [showFilenameDialog, setShowFilenameDialog] = useState(false);
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
@@ -122,13 +164,7 @@ const WorkArea = forwardRef((props, ref) => {
                 throw new Error('File not found');
             }
             const data = await response.json();
-            let condTitle = "";
-            if (filename.includes('/')) {
-                condTitle = filename.split('/').pop();
-            }
-            else {
-                condTitle = filename.split('\\').pop();
-            }
+            let condTitle = filename.includes('/') ? filename.split('/').pop() : filename.split('\\').pop();
             const newTab = {
                 key: props.tabs.length + 1, title: condTitle, content: data.content, language: data.language, path: filename
             };
@@ -171,8 +207,8 @@ const WorkArea = forwardRef((props, ref) => {
         }
     };
 
-    const handleFilenameSubmit = async (filename) => {
-        setShowFilenameDialog(false);
+    const handleSaveFileSubmit = async (filename) => {
+        setShowSaveFileDialog(false);
         if (!filename) return;
         setLoading(true);
         setError(null);
@@ -190,23 +226,17 @@ const WorkArea = forwardRef((props, ref) => {
                 },
                 body: JSON.stringify({ path: filename, content: tab.content }),
             });
-            console.log(response);
             if (!response.ok) {
                 throw new Error('Failed to save file');
             }
             tab.path = filename;
-            if (filename.includes('/')) {
-                tab.title = filename.split('/').pop();
-            }
-            else {
-                tab.title = filename.split('\\').pop();
-            }
+            tab.title = filename.includes('/') ? filename.split('/').pop() : filename.split('\\').pop();
         } catch (error) {
             setError(error.message);
         } finally {
             setLoading(false);
         }
-    }
+    };
 
     const handleCloseError = () => {
         setError(null);
@@ -217,7 +247,7 @@ const WorkArea = forwardRef((props, ref) => {
             {showFileSelector && <FileSelector onSubmitFile={handleFileSubmit} />}
             {showFolderSelector && <FolderSelector onSubmitFolder={handleFolderSubmit} />}
             {showMeetingPopup && <MeetingPopup onAcknowledgeMeeting={handleAcknowledgeMeeting} />}
-            {showFilenameDialog && <FilenameDialog onSubmitFilename={handleFilenameSubmit} />}
+            {showSaveFileDialog && <SaveFileDialog onSubmitFile={handleSaveFileSubmit} onClose={() => setShowSaveFileDialog(false)} currentFilePath={activeTab ? activeTab.path : ''} />}
             {loading && <div className="loading-overlay">Loading...</div>}
             {error && <FileSelectorError message={error} onClose={handleCloseError} />}
             <TabBar
