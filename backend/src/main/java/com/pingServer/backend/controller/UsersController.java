@@ -178,10 +178,18 @@ public class UsersController {
                 }
             }
 
-            response.setStatusCode(200);
-            response.setTimeUntilNext(shortestDuration.toMinutes());
-            response.setInMeeting(inMeeting);
-            response.setMessage("Found");
+            if (shortestDuration == null){
+                response.setStatusCode(200);
+                response.setTimeUntilNext(-1L);
+                response.setInMeeting(inMeeting);
+                response.setMessage("No upcoming event");
+            } else {
+                response.setStatusCode(200);
+                response.setTimeUntilNext(shortestDuration.toMinutes());
+                response.setInMeeting(inMeeting);
+                response.setMessage("Found");
+            }
+
         }
         else
         {
