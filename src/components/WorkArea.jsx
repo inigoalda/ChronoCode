@@ -6,6 +6,7 @@ import MonacoEditor from './MonacoEditor';
 import FileSelector from './FileSelector';
 import FileSelectorError from './FileSelectorError';
 import FolderSelector from './FolderSelector';
+import MeetingPopup from './MeetingPopup';
 import SaveFileDialog from './SaveFileDialog';
 
 const WorkArea = forwardRef((props, ref) => {
@@ -51,6 +52,9 @@ const WorkArea = forwardRef((props, ref) => {
         },
         onOpenFolder() {
             setShowFolderSelector(true);
+        },
+        onRemindNextMeeting() {
+            setShowMeetingPopup(true);
         },
         onSaveFile() {
             if (!activeTab) {
@@ -114,6 +118,7 @@ const WorkArea = forwardRef((props, ref) => {
     const [activeTab, setActiveTab] = useState(null);
     const [showFileSelector, setShowFileSelector] = useState(false);
     const [showFolderSelector, setShowFolderSelector] = useState(false);
+    const [showMeetingPopup, setShowMeetingPopup] = useState(false);
     const [showSaveFileDialog, setShowSaveFileDialog] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -171,6 +176,10 @@ const WorkArea = forwardRef((props, ref) => {
             setLoading(false);
         }
     };
+
+    const handleAcknowledgeMeeting = () => {
+        setShowMeetingPopup(false);
+    }
 
     const handleFolderSubmit = async (foldername) => {
         setShowFolderSelector(false);
@@ -237,18 +246,21 @@ const WorkArea = forwardRef((props, ref) => {
         <div className="work-area">
             {showFileSelector && <FileSelector onSubmitFile={handleFileSubmit} />}
             {showFolderSelector && <FolderSelector onSubmitFolder={handleFolderSubmit} />}
+            {showMeetingPopup && <MeetingPopup onAcknowledgeMeeting={handleAcknowledgeMeeting} />}
             {showSaveFileDialog && <SaveFileDialog onSubmitFile={handleSaveFileSubmit} onClose={() => setShowSaveFileDialog(false)} currentFilePath={activeTab ? activeTab.path : ''} />}
             {loading && <div className="loading-overlay">Loading...</div>}
             {error && <FileSelectorError message={error} onClose={handleCloseError} />}
-            <TabBar
+            {<TabBar
                 tabs={props.tabs}
                 activeTab={activeTab}
                 onTabClick={handleTabClick}
                 onCloseTab={handleCloseTab}
                 onNewTab={handleNewTab}
                 onTabChange={handleTabChange}
-            />
-            <MonacoEditor ref={editorRef} tab={activeTab} handleContentChange={handleTabChange} />
+                areTabsLocked={props.areTabsLocked}
+                />}
+            {!props.areTabsLocked && <MonacoEditor ref={editorRef} tab={activeTab} handleContentChange={handleTabChange}/>}
+            {props.areTabsLocked && <div className='tab-locked'>Tabs are currently locked.</div>}
         </div>
     );
 });

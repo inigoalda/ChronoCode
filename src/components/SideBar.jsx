@@ -3,7 +3,7 @@ import IconItem from "./IconItem";
 import OptionsMenu from "./OptionsMenu";
 import "./SideBar.css";
 import {
-    VscMenu, VscFiles, VscSearch, VscSourceControl, VscCalendar, VscSettingsGear
+    VscMenu, VscFiles, VscSearch, VscSourceControl, VscCalendar, VscSettingsGear, VscLock, VscUnlock
 } from "react-icons/vsc";
 import { SiApachemaven } from "react-icons/si";
 
@@ -104,6 +104,14 @@ const SideBar = forwardRef((props, ref) => {
             {/* BOTTOM ICONS */}
             <div className="left-bar-bottom">
                 <OptionsMenu isVisible={accountVisible} options={settingsOptions} onClose={() => setAccountVisible(false)} top="calc(100% - 62px)" left="48px"/>
+                <IconItem
+                    icon={VscLock}
+                    onClick={() => props.setAreTabsLocked(true)}
+                />
+                <IconItem
+                    icon={VscUnlock}
+                    onClick={() => props.setAreTabsLocked(false)}
+                />
                 <IconItem
                     icon={VscSettingsGear}
                     onClick={() => handleIconClick('VscSettingsGear')}

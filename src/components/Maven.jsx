@@ -3,6 +3,36 @@ import { React } from 'react';
 import './Maven.css';
 
 const Maven = (props) => {
+    console.log(props);
+    async function callMavenFeature(featureName) {
+        if (featureName !== "INSTALL" &&
+            featureName !== "CLEAN" &&
+            featureName !== "PACKAGE" &&
+            featureName !== "TEST"
+        ) return;
+
+        var execData = {
+            feature: featureName,
+            params: [],
+            project: "useless"
+        };
+
+    const response = await fetch('http://localhost:8080/api/execFeature', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(execData),
+    });
+    if (response.ok) {
+        const data = await response.json();
+        // TODO
+    } else {
+        const errorData = await response.json();
+        console.log(errorData);
+    }
+    }
+
     const noMaven = () => {
         return (
             <div>
@@ -63,10 +93,10 @@ const Maven = (props) => {
                 MAVEN
             </p>
             <div className="file-tree">
-                <button className="vscode-button">Maven Install</button>
-                <button className="vscode-button">Maven Clean</button>
-                <button className="vscode-button">Maven Package</button>
-                <button className="vscode-button">Maven Test</button>
+                <button className="vscode-button" onClick={() => callMavenFeature("INSTALL")}>Maven Install</button>
+                <button className="vscode-button" onClick={() => callMavenFeature("CLEAN")}>Maven Clean</button>
+                <button className="vscode-button" onClick={() => callMavenFeature("PACKAGE")}>Maven Package</button>
+                <button className="vscode-button" onClick={() => callMavenFeature("TEST")}>Maven Test</button>
             </div>
         </div>
     );

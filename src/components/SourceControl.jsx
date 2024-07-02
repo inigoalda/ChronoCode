@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import './SourceControl.css'
 
 const SourceControl = (props) => {
-    
+
     const [files, setFiles] = useState([]);
     const [pull, setPull] = useState("Pull");
     const [push, setPush] = useState("Push");
@@ -39,6 +39,43 @@ const SourceControl = (props) => {
             </div>);
     }
 
+
+    useEffect(() => {
+        const handleFirst = async () => {
+            const execData = {
+                feature: "STATUS",
+                params: [],
+                project: "useless"
+            };
+
+            try {
+                setFiles([]);
+                setFilesCheck([]);
+                const response = await fetch('http://localhost:8080/api/execFeature', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(execData),
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    setFiles(() => {
+                        const merge = [...data.modified, ...data.untracked];
+                        return merge;
+                    });
+                } else {
+                    const errorData = await response.json();
+                    setFiles(["Error"]);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                setFiles(["Error"]);
+            }
+        };
+        handleFirst();
+    }, []);
+
     if (!props.data) {
         return noGit();
     }
@@ -55,7 +92,6 @@ const SourceControl = (props) => {
         return noGit();
     }
 
-
     const handlePull = async () => {
         const execData = {
             feature: "PULL",
@@ -65,7 +101,6 @@ const SourceControl = (props) => {
 
         try {
             setPull("Loading...");
-            setFiles([]);
             setFilesCheck([]);
             const response = await fetch('http://localhost:8080/api/execFeature', {
                 method: 'POST',
@@ -77,7 +112,7 @@ const SourceControl = (props) => {
             if (response.ok) {
                 const data = await response.json();
                 setFiles(prevFiles => {
-                    const merge = [...prevFiles, ...data.modified, ...data.untracked];
+                    const merge = [...data.modified, ...data.untracked];
                     return merge;
                 });
             } else {
@@ -101,7 +136,6 @@ const SourceControl = (props) => {
 
         try {
             setPush("Loading...");
-            setFiles([]);
             const response = await fetch('http://localhost:8080/api/execFeature', {
                 method: 'POST',
                 headers: {
@@ -111,8 +145,8 @@ const SourceControl = (props) => {
             });
             if (response.ok) {
                 const data = await response.json();
-                setFiles(prevFiles => {
-                    const merge = [...prevFiles, ...data.modified, ...data.untracked];
+                setFiles(() => {
+                    const merge = [...data.modified, ...data.untracked];
                     return merge;
                 });
             } else {
@@ -157,7 +191,6 @@ const SourceControl = (props) => {
 
         try {
             setPush("Loading...");
-            setFiles([]);
             const response = await fetch('http://localhost:8080/api/execFeature', {
                 method: 'POST',
                 headers: {
@@ -167,8 +200,8 @@ const SourceControl = (props) => {
             });
             if (response.ok) {
                 const data = await response.json();
-                setFiles(prevFiles => {
-                    const merge = [...prevFiles, ...data.modified, ...data.untracked];
+                setFiles(() => {
+                    const merge = [...data.modified, ...data.untracked];
                     return merge;
                 });
             } else {

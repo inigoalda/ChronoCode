@@ -149,3 +149,16 @@ textarea {
 .error-content button {
     padding: 5px 10px;
 }
+
+.tab-locked {
+    color: #e70000;
+    text-align: center;
+    padding: 10px;
+    border-radius: 4px;
+    margin: 5px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
