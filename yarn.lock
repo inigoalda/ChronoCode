@@ -2075,9 +2075,9 @@
     pretty-format "^27.0.2"
 
 "@testing-library/dom@>=7.21.4":
-  version "10.1.0"
-  resolved "https://registry.npmjs.org/@testing-library/dom/-/dom-10.1.0.tgz"
-  integrity sha512-wdsYKy5zupPyLCW2Je5DLHSxSfbIp6h80WoHOQc+RPtmPGA52O9x5MJEkv92Sjonpq+poOAtUKhh1kBGAXBrNA==
+  version "10.3.0"
+  resolved "https://registry.npmjs.org/@testing-library/dom/-/dom-10.3.0.tgz"
+  integrity sha512-pT/TYB2+IyMYkkB6lqpkzD7VFbsR0JBJtflK3cS68sCNWxmOhWwRm1XvVHlseNEorsNcxkYsb4sRDV3aNIpttg==
   dependencies:
     "@babel/code-frame" "^7.10.4"
     "@babel/runtime" "^7.12.5"
@@ -7137,9 +7137,9 @@ moment@^2.29.4:
   integrity sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==
 
 "monaco-editor@>= 0.21.0 < 1", "monaco-editor@>= 0.25.0 < 1":
-  version "0.48.0"
-  resolved "https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.48.0.tgz"
-  integrity sha512-goSDElNqFfw7iDHMg8WDATkfcyeLTNpBHQpO8incK6p5qZt5G/1j41X0xdGzpIkGojGXM+QiRQyLjnfDVvrpwA==
+  version "0.50.0"
+  resolved "https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.50.0.tgz"
+  integrity sha512-8CclLCmrRRh+sul7C08BmPBP3P8wVWfBHomsTcndxg5NRCEPfu/mc2AGU8k37ajjDVXcXFc12ORAMUkmk+lkFA==
 
 ms@^2.1.1, ms@2.1.2:
   version "2.1.2"

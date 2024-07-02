@@ -49,6 +49,10 @@ function App() {
         sideBarRef.current.handleCloseMenu();
     }
 
+    const openMeetingPopup = () => {
+        workAreaRef.current.onRemindNextMeeting();
+    }
+
     const saveFile = () => {
         workAreaRef.current.onSaveFile();
         sideBarRef.current.handleCloseMenu();
@@ -81,6 +85,7 @@ function App() {
     const [UserId, setUserId] = useState(0);
     const [calendarShown, setCalendarShown] = useState(false);
     const [tabs, setTabs] = useState([]);
+    const [areTabsLocked, setAreTabsLocked] = useState(false);
 
 
     return (<div>
@@ -101,7 +106,7 @@ function App() {
                 <div className="App" style={{display: 'flex'}}>
                     <SideBar createNewTab={createNewTab} showCalendar={() => setCalendarShown(true)}
                              logoutUser={logoutUser} openFile={openFile} ref={sideBarRef} saveFile={saveFile} saveProject={saveProject}
-                                setShowBar={setBar} openFolder={openFolder}/>
+                                setShowBar={setBar} openFolder={openFolder} openMeetingPopup={openMeetingPopup} setAreTabsLocked={setAreTabsLocked}/>
                     {showBar && (
                         <Resizable
                             className={"bar"}
@@ -119,20 +124,23 @@ function App() {
                                     setShowBar(false);
                                 }
 
-                        }}
-                    >
-                        <div className="bar">
-                            {currentBar === 'VscFiles' && <FileTree data={data} openFolder={openFolder} openFile={openFileWithPath} />}
-                            {currentBar === 'VscSearch' && <SearchBar data={data} openFolder={openFolder} tabs={tabs} onResultClick={handleOnResultClick} />}
-                            {currentBar === 'VscSourceControl' && <SourceControl data={data} openFolder={openFolder} />}
-                            {currentBar === 'SiApachemaven' && <Maven data={data} openFolder={openFolder} />}
-                        </div>
-                    </Resizable>
-                )}
-                <WorkArea ref={workAreaRef} handleSetData={handleSetData} tabs={tabs} setTabs={setTabs} />
-            </div>
-        </div>}
-    </div>
+                            }}
+                        >
+                            <div className="bar">
+                                {currentBar === 'VscFiles' && <FileTree data={data} openFolder={openFolder} openFile={openFileWithPath}/> }
+                                {currentBar === 'VscSearch' && <SearchBar data={data} openFolder={openFolder} tabs={tabs} onResultClick={handleOnResultClick}/>}
+                                {currentBar === 'VscSourceControl' && <SourceControl data={data} openFolder={openFolder}/>}
+                                {currentBar === 'SiApachemaven' && <Maven data={data} openFolder={openFolder}/>}
+                            </div>
+                        </Resizable>
+                    )}
+                    <WorkArea ref={workAreaRef} handleSetData={handleSetData} tabs={tabs} setTabs={setTabs} 
+                    areTabsLocked={areTabsLocked}
+                    setAreTabsLocked={setAreTabsLocked}
+                />
+                </div>
+            </div>}
+        </div>
 
     );
 }
