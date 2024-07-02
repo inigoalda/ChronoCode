@@ -12,8 +12,6 @@ const DragAndDropCalendar = withDragAndDrop(Calendar)
 const localizer = momentLocalizer(moment);
 
 const FloatingCalendar = ({ onClose, userId }) => {
-    // use only pastel colors
-
 
     const [schedule, setSchedule] = useState([]);
     const [error, setError] = useState('');

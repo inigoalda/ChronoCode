@@ -23,8 +23,9 @@ const FileSelector = ({ onSubmitFile }) => {
                 throw new Error(`Erreur HTTP! Statut: ${response.status}`);
             }
             const data = await response.json();
-            console.log('Données récupérées :', data);
             const { folders, files } = data;
+            folders.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+            files.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
             setFolders(folders);
             setFiles(files);
         } catch (error) {
@@ -47,15 +48,12 @@ const FileSelector = ({ onSubmitFile }) => {
         else{
             selectedFilePath = `${currentPath}${file}`;
         }
-        console.log(selectedFilePath);
         onSubmitFile(selectedFilePath);
     };
 
     const handleInputSubmit = () => {
         setHistory(prevHistory => [...prevHistory, currentPath]);
-        console.log("handleInputsubmit");
         if (inputPath.trim() === "") {
-            console.log("here");
             setInputPath("/");
             setCurrentPath("/");
         } else {
@@ -73,7 +71,6 @@ const FileSelector = ({ onSubmitFile }) => {
     };
 
     const handleInputChange = (event) => {
-        console.log("handleInputChange");
         setInputPath(event.target.value);
     };
 

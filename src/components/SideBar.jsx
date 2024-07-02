@@ -48,7 +48,7 @@ const SideBar = forwardRef((props, ref) => {
         { label: 'Open Folder', onClick: props.openFolder },
         { label: 'Save', onClick: props.saveFile },
         { label: 'Save Project', onClick: props.saveProject },
-        { label: 'Exit', onClick: props.logoutUser },
+        { label: 'Close Folder', onClick: props.closeFolder },
         // Add more options as needed
     ];
 

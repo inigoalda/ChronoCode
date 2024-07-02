@@ -4,6 +4,7 @@ import { theme } from './theme';
 import { Container, Form, Input, Button } from './StyledComponents';
 
 import { VscRobot } from "react-icons/vsc";
+import { TbInfinity } from 'react-icons/tb';
 
 const LoginPage = (props) => {
     const [username, setUsername] = useState('');
@@ -49,8 +50,10 @@ const LoginPage = (props) => {
     return (
         <ThemeProvider theme={theme}>
             <Container>
-                <VscRobot size={100} />
-                <h1>Login</h1>
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+                    <h1 style={{fontSize: '2.5rem', color: '#fff'}}>ChronoCode</h1>
+                    <TbInfinity size={60} />
+                </div>
                 <Form onSubmit={handleSubmit}>
                     <Input
                         type="text"
