@@ -24,7 +24,7 @@ const MonacoEditor = forwardRef(({ tab, handleContentChange }, ref) => {
     const handleEditorDidMount = (editor) => {
         editorRef.current = editor;
     };
-
+    console.log(tab);
     return (
         <div style={{ paddingTop: '10px' }}>
             {tab && (

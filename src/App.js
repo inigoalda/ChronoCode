@@ -1,9 +1,9 @@
-import React, {useRef, useState} from 'react';
+import React, { useRef, useState } from 'react';
 
 import SideBar from './components/SideBar';
 import WorkArea from './components/WorkArea';
 import FloatingCalendar from "./components/FloatingCalendar";
-import {Resizable} from 're-resizable';
+import { Resizable } from 're-resizable';
 import FileTree from "./components/FileTree";
 import SearchBar from "./components/SearchBar";
 import SourceControl from "./components/SourceControl";
@@ -26,7 +26,7 @@ function App() {
     const handleOnResultClick = (result) => {
         workAreaRef.current.onSetActiveTab(result);
     }
-    
+
     const createNewTab = () => {
         workAreaRef.current.onNewTab();
     };
@@ -77,19 +77,26 @@ function App() {
         setData(data);
     }
 
-    const [isLogged, setIsLogged] = useState("asdf");
+    const [isLogged, setIsLogged] = useState("");
+    const [UserId, setUserId] = useState(0);
     const [calendarShown, setCalendarShown] = useState(false);
     const [tabs, setTabs] = useState([]);
 
 
     return (<div>
-            {!isLogged && <Login userHandler={(username) => setIsLogged(username)}/>}
-            {isLogged && <div>
-                {calendarShown && <FloatingCalendar onClose={() => setCalendarShown(false)}/>}
-                <div className="header">
+        {!isLogged && <Login userHandler={(username, id) => {
+            setIsLogged(username);
+            setUserId(id);
+        }} />}
+        {isLogged && <div>
+            {calendarShown && <FloatingCalendar onClose={() => setCalendarShown(false)} userId={UserId} />}
+            <div className="header">
+                <div className='Title'>
                     <h2>ChronoCode</h2>
-                    <TbInfinity style={{marginTop: "3px", fontSize: '30px', color: 'white'}}/>
+                    <TbInfinity style={{ marginTop: "3px", fontSize: '30px', color: 'white' }} />
                 </div>
+                <p className='username'>{isLogged}</p>
+            </div>
 
                 <div className="App" style={{display: 'flex'}}>
                     <SideBar createNewTab={createNewTab} showCalendar={() => setCalendarShown(true)}
@@ -112,20 +119,20 @@ function App() {
                                     setShowBar(false);
                                 }
 
-                            }}
-                        >
-                            <div className="bar">
-                                {currentBar === 'VscFiles' && <FileTree data={data} openFolder={openFolder} openFile={openFileWithPath}/> }
-                                {currentBar === 'VscSearch' && <SearchBar data={data} openFolder={openFolder} tabs={tabs} onResultClick={handleOnResultClick}/>}
-                                {currentBar === 'VscSourceControl' && <SourceControl data={data} openFolder={openFolder}/>}
-                                {currentBar === 'SiApachemaven' && <Maven data={data} openFolder={openFolder}/>}
-                            </div>
-                        </Resizable>
-                    )}
-                    <WorkArea ref={workAreaRef} handleSetData={handleSetData} tabs={tabs} setTabs={setTabs}/>
-                </div>
-            </div>}
-        </div>
+                        }}
+                    >
+                        <div className="bar">
+                            {currentBar === 'VscFiles' && <FileTree data={data} openFolder={openFolder} openFile={openFileWithPath} />}
+                            {currentBar === 'VscSearch' && <SearchBar data={data} openFolder={openFolder} tabs={tabs} onResultClick={handleOnResultClick} />}
+                            {currentBar === 'VscSourceControl' && <SourceControl data={data} openFolder={openFolder} />}
+                            {currentBar === 'SiApachemaven' && <Maven data={data} openFolder={openFolder} />}
+                        </div>
+                    </Resizable>
+                )}
+                <WorkArea ref={workAreaRef} handleSetData={handleSetData} tabs={tabs} setTabs={setTabs} />
+            </div>
+        </div>}
+    </div>
 
     );
 }

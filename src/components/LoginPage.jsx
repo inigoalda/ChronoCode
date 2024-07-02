@@ -3,7 +3,7 @@ import { ThemeProvider } from 'styled-components';
 import { theme } from './theme';
 import { Container, Form, Input, Button } from './StyledComponents';
 
-import {VscRobot} from "react-icons/vsc";
+import { VscRobot } from "react-icons/vsc";
 
 const LoginPage = (props) => {
     const [username, setUsername] = useState('');
@@ -19,7 +19,7 @@ const LoginPage = (props) => {
         };
 
         try {
-            const response = await fetch('http://localhost:8080/login', {
+            const response = await fetch('http://localhost:8081/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -30,12 +30,12 @@ const LoginPage = (props) => {
                 const data = await response.json();
                 if (data.statusCode === 200) {
                     setError("");
-                    props.userHandler(username);
+                    props.userHandler(username, data.data.userId);
                 }
                 else {
                     setError(data.message || "Login failed");
                 }
-                
+
             } else {
                 const errorData = await response.json();
                 setError(errorData.message || 'Login failed');
@@ -49,7 +49,7 @@ const LoginPage = (props) => {
     return (
         <ThemeProvider theme={theme}>
             <Container>
-                <VscRobot size={100}/>
+                <VscRobot size={100} />
                 <h1>Login</h1>
                 <Form onSubmit={handleSubmit}>
                     <Input
