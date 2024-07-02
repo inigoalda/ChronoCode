@@ -1,6 +1,7 @@
 package com.pingServer.backend.controller;
 
 
+import com.pingServer.backend.model.Calendar;
 import com.pingServer.backend.model.response.ListResponse;
 import com.pingServer.backend.model.response.Response;
 import com.pingServer.backend.model.Schedule;
@@ -74,6 +75,23 @@ public class UsersController {
         return response;
     }
 
+    @PostMapping(value = "/calendar", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Response createUser(@RequestBody final Calendar calendar)
+    {
+        Response response = new Response();
+        if(calendarService.createCalendar(calendar))
+        {
+            response.setMessage("Calendar successfully created");
+            response.setStatusCode(200);
+        }
+        else
+        {
+            response.setMessage("Error on user creation");
+            response.setStatusCode(422);
+        }
+        return response;
+    }
+
     @PostMapping(value = "/event", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Response createSchedule(@RequestBody final Schedule schedule)
     {
@@ -118,7 +136,7 @@ public class UsersController {
 
             listResponse.setStatusCode(200);
             listResponse.setMessage("All events");
-            listResponse.setData(calendarService.allEvents(u));
+            listResponse.setData(scheduleService.allEvents(u));
         }
         else
         {
