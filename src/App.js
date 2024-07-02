@@ -106,6 +106,7 @@ function App() {
             inactivityTimeoutRef.current = setTimeout(() => {
                 setInactiveOverlayVisible(true);
                 setPasswordPromptVisible(true);
+                setCalendarShown(false);
             }, 5 * 60 * 1000); // 5 minutes
         }
     };
