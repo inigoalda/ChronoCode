@@ -84,6 +84,7 @@ function App() {
     const [isLogged, setIsLogged] = useState("asdf");
     const [calendarShown, setCalendarShown] = useState(false);
     const [tabs, setTabs] = useState([]);
+    const [areTabsLocked, setAreTabsLocked] = useState(false);
 
 
     return (<div>
@@ -98,7 +99,7 @@ function App() {
                 <div className="App" style={{display: 'flex'}}>
                     <SideBar createNewTab={createNewTab} showCalendar={() => setCalendarShown(true)}
                              logoutUser={logoutUser} openFile={openFile} ref={sideBarRef} saveFile={saveFile} saveProject={saveProject}
-                                setShowBar={setBar} openFolder={openFolder} openMeetingPopup={openMeetingPopup}/>
+                                setShowBar={setBar} openFolder={openFolder} openMeetingPopup={openMeetingPopup} setAreTabsLocked={setAreTabsLocked}/>
                     {showBar && (
                         <Resizable
                             className={"bar"}
@@ -126,7 +127,10 @@ function App() {
                             </div>
                         </Resizable>
                     )}
-                    <WorkArea ref={workAreaRef} handleSetData={handleSetData} tabs={tabs} setTabs={setTabs}/>
+                    <WorkArea ref={workAreaRef} handleSetData={handleSetData} tabs={tabs} setTabs={setTabs} 
+                    areTabsLocked={areTabsLocked}
+                    setAreTabsLocked={setAreTabsLocked}
+                />
                 </div>
             </div>}
         </div>

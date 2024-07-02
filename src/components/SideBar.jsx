@@ -102,7 +102,7 @@ const SideBar = forwardRef((props, ref) => {
                 />
                 <IconItem
                     icon={VscExclude}
-                    onClick={() => props.openMeetingPopup()}
+                    onClick={() => props.setAreTabsLocked(true)}
                 />
             </div>
             {/* BOTTOM ICONS */}

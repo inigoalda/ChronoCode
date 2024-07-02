@@ -250,15 +250,17 @@ const WorkArea = forwardRef((props, ref) => {
             {showSaveFileDialog && <SaveFileDialog onSubmitFile={handleSaveFileSubmit} onClose={() => setShowSaveFileDialog(false)} currentFilePath={activeTab ? activeTab.path : ''} />}
             {loading && <div className="loading-overlay">Loading...</div>}
             {error && <FileSelectorError message={error} onClose={handleCloseError} />}
-            <TabBar
+            {<TabBar
                 tabs={props.tabs}
                 activeTab={activeTab}
                 onTabClick={handleTabClick}
                 onCloseTab={handleCloseTab}
                 onNewTab={handleNewTab}
                 onTabChange={handleTabChange}
-            />
-            <MonacoEditor ref={editorRef} tab={activeTab} handleContentChange={handleTabChange} />
+                areTabsLocked={props.areTabsLocked}
+                />}
+            {!props.areTabsLocked && <MonacoEditor ref={editorRef} tab={activeTab} handleContentChange={handleTabChange}/>}
+            {props.areTabsLocked && <div className='tab-locked'>This tab is currently locked.</div>}
         </div>
     );
 });
