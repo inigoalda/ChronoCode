@@ -66,7 +66,7 @@ const FileTree = (props) => {
                 EXPLORER - {props.data.folderName}
             </p>
             <div className="file-tree">
-                <FolderTree data = { treeState } showCheckbox = { false } indentPixels = { 10 } readOnly onNameClick={onNameClick} />
+                <FolderTree data = { treeState } showCheckbox = { false } indentPixels = { 10 } readOnly onNameClick={onNameClick} initOpenStatus={true} />
             </div>
         </div>
     );

@@ -9,9 +9,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CalendarRepository extends JpaRepository<Schedule, Long> {
+public interface CalendarRepository extends JpaRepository<Calendar, Long> {
 
-    List<Schedule> findAllByCalendar_User(User user);
-
+    Calendar findAllByName(String name);
 
 }

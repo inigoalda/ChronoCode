@@ -7,6 +7,7 @@ import com.pingServer.backend.repository.CalendarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.awt.*;
 import java.util.List;
 
 @Service
@@ -16,9 +17,15 @@ public class CalendarService {
     @Autowired
     private CalendarRepository calendarRepository;
 
-    public List<Schedule> allEvents(User user)
+    public boolean createCalendar(Calendar calendar)
     {
-        return calendarRepository.findAllByCalendar_User(user);
+        if (calendarRepository.findAllByName(calendar.getName()) != null)
+        {
+            return false;
+        }
+        calendarRepository.save(calendar);
+        return true;
     }
+
 
 }

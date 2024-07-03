@@ -26,4 +26,8 @@ public class ScheduleService {
     }
 
 
+    public List<Schedule> allEvents(User user)
+    {
+        return scheduleRepository.findAllByCalendar_User(user);
+    }
 }

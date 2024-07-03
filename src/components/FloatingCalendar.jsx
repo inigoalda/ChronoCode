@@ -115,7 +115,7 @@ const FloatingCalendar = ({ onClose, userId }) => {
             <div className="overlay" onClick={onClose}></div>
             <div className="window">
                 <div style={{ textAlign: 'right', cursor: 'pointer' }}>
-                    <VscClose size={24} onClick={onClose} />
+                    <VscClose size={24} onClick={onClose} color="white" />
                 </div>
                 <div className="window-content">
                     <DragAndDropCalendar
