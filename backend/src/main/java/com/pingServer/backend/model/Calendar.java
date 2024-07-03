@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 @Table(name="calendars")
 public class Calendar {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long calendarId;

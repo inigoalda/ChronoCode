@@ -74,6 +74,10 @@ public class UsersController {
         if(userService.createUser(user))
         {
             response.setMessage("User successfully created");
+            Calendar calendar = new Calendar();
+            calendar.setUser(userService.getUserByName(user.getUsername()));
+            calendar.setName("Default");
+            calendarService.createCalendar(calendar);
             response.setStatusCode(200);
         }
         else

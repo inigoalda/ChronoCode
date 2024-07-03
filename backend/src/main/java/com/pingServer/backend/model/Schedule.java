@@ -25,7 +25,6 @@ public class Schedule {
     private LocalDateTime start_date;
     private LocalDateTime end_date;
 
-
     @ManyToOne()
     @JoinColumn(name = "calendar_id")
     private Calendar calendar;
