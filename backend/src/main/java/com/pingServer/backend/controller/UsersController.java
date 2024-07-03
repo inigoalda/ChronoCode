@@ -77,7 +77,7 @@ public class UsersController {
             Calendar calendar = new Calendar();
             calendar.setUser(userService.getUserByName(user.getUsername()));
             calendar.setName("Default");
-            calendarService.createCalendar(new Calendar());
+            calendarService.createCalendar(calendar);
             response.setStatusCode(200);
         }
         else
