@@ -11,13 +11,13 @@ import com.pingServer.backend.service.CalendarService;
 import com.pingServer.backend.service.ScheduleService;
 import com.pingServer.backend.service.UserService;
 
+import com.pingServer.backend.utils.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @RestController
@@ -40,12 +40,14 @@ public class UsersController {
 
     @GetMapping("/users")
     public List<User> getAllUsers() {
+        Logger.log("Getting All Users");
         return userService.getAllUsers();
     }
 
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Response loginUser(@RequestBody final User user)
     {
+        Logger.log("Log in user: " + user.getUsername());
         Response response = new Response();
         User u = userService.loginUser(user);
         if( u != null)
@@ -65,6 +67,7 @@ public class UsersController {
     @PostMapping(value = "/signin", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Response createUser(@RequestBody final User user)
     {
+        Logger.log("Sign in user: " + user.getUsername());
         Response response = new Response();
         if(userService.createUser(user))
         {
@@ -82,6 +85,7 @@ public class UsersController {
     @PostMapping(value = "/calendar", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Response createUser(@RequestBody final Calendar calendar)
     {
+        Logger.log("Create calendar");
         Response response = new Response();
         if(calendarService.createCalendar(calendar))
         {
@@ -99,6 +103,7 @@ public class UsersController {
     @PostMapping(value = "/event", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Response createSchedule(@RequestBody final Schedule schedule)
     {
+        Logger.log("Create Event");
         Response response = new Response();
         if(scheduleService.createSchedule(schedule))
         {
@@ -116,6 +121,7 @@ public class UsersController {
     @GetMapping(value = "/events", produces = MediaType.APPLICATION_JSON_VALUE)
     public ListResponse allCalendar()
     {
+        Logger.log("Get all events");
         ListResponse listResponse = new ListResponse();
         listResponse.setStatusCode(200);
         listResponse.setMessage("All events");
@@ -125,6 +131,7 @@ public class UsersController {
     @GetMapping(value = {"/events/{userId}"}, produces = MediaType.APPLICATION_JSON_VALUE)
     public ListResponse allEventsForUser(@PathVariable Integer userId)
     {
+        Logger.log("Get all events for user: " + userId);
         ListResponse listResponse = new ListResponse();
 
         if(userId == null)
@@ -153,6 +160,7 @@ public class UsersController {
     @GetMapping(value = {"/nextevent/{userId}"}, produces = MediaType.APPLICATION_JSON_VALUE)
     public EventResponse NextEventForUser(@PathVariable Integer userId)
     {
+        Logger.log("Get next event for user: " + userId);
         EventResponse response = new EventResponse();
 
         if(userId == null)
