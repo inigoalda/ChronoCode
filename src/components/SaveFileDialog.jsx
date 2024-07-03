@@ -1,13 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './FileSelector.css';
 
-const getParentPath = (path) => {
-    const separatorIndex = path.lastIndexOf('/');
-    return separatorIndex === -1 ? '/' : path.substring(0, separatorIndex + 1);
-};
-
 const SaveFileDialog = ({ onSubmitFile, onClose, currentFilePath }) => {
-    const [currentPath, setCurrentPath] = useState(getParentPath(currentFilePath) || '/');
+    const [currentPath, setCurrentPath] = useState('/');
     const [inputPath, setInputPath] = useState('/');
     const [folders, setFolders] = useState([]);
     const [files, setFiles] = useState([]);
@@ -31,36 +26,17 @@ const SaveFileDialog = ({ onSubmitFile, onClose, currentFilePath }) => {
             });
 
             if (!response.ok) {
-                throw new Error('Failed to load directory');
+                throw new Error('Failed to fetch');
             }
 
             const data = await response.json();
-            setFolders(data.folders);
-            setFiles(data.files);
-        } catch (err) {
-            setError(err.message);
+            const { folders, files } = data;
+            setFolders(folders);
+            setFiles(files);
+            setError(null);
+        } catch (error) {
+            setError("Error while fetching data: " + error.message);
         }
-    };
-
-    const handleInputChange = (event) => {
-        setInputPath(event.target.value);
-    };
-
-    const handleInputSubmit = () => {
-        setHistory([...history, currentPath]);
-        if (inputPath.trim() === "") {
-            console.log("here");
-            setInputPath("/");
-            setCurrentPath("/");
-        } else {
-            setCurrentPath(inputPath);
-        }
-    };
-
-    const handleGoBack = () => {
-        const newPath = history.pop();
-        setCurrentPath(newPath);
-        setHistory(history);
     };
 
     const handleFolderClick = (folder) => {
@@ -70,13 +46,75 @@ const SaveFileDialog = ({ onSubmitFile, onClose, currentFilePath }) => {
         setInputPath(newPath);
     };
 
-    const handleSaveClick = () => {
-        if (filename) {
-            onSubmitFile(`${currentPath}${filename}`);
-        } else {
+    const handleFileClick = (file) => {
+        if (file.trim() === "") {
             setError('Please enter a filename');
+            return;
+        }
+        setFilename(file);
+        const fullPath = `${currentPath}${file}`;
+        onSubmitFile(fullPath);
+    };
+
+    const handleInputSubmit = async () => {
+        const trimmedPath = inputPath.trim();
+        if (trimmedPath === "") {
+            setInputPath("/");
+            setCurrentPath("/");
+        } else {
+            const success = await fetchFiles(trimmedPath);
+            if (success) {
+                setHistory(prevHistory => [...prevHistory, currentPath]);
+                setCurrentPath(trimmedPath);
+            }
         }
     };
+
+    const handleGoBack = () => {
+        if (history.length > 0) {
+            const previousPath = history[history.length - 1];
+            setHistory(prevHistory => prevHistory.slice(0, -1));
+            setCurrentPath(previousPath);
+            setInputPath(previousPath);
+        }
+    };
+
+    const handleInputChange = (event) => {
+        setFilename(event.target.value);
+    };
+
+    const handleClickOutside = (event) => {
+        if (fileSelectorRef.current && !fileSelectorRef.current.contains(event.target)) {
+            onClose();
+        }
+    };
+
+    const handleSaveClick = () => {
+        if (filename.trim() === "") {
+            setError('Please enter a filename');
+            return;
+        }
+
+        const fullPath = `${currentPath}${filename}`;
+        onSubmitFile(fullPath);
+    };
+
+    const handleSaveAndOverwriteClick = () => {
+        if (filename.trim() === "") {
+            setError('Please enter a filename');
+            return;
+        }
+
+        const fullPath = `${currentPath}${filename}`;
+        onSubmitFile(fullPath);
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     return (
         <div className="file-selector-overlay">
@@ -84,7 +122,7 @@ const SaveFileDialog = ({ onSubmitFile, onClose, currentFilePath }) => {
                 <div className="file-explorer">
                     <div className="path">Current path: {currentPath}</div>
                     <div className="input-path">
-                        <input type="text" value={currentPath} onChange={handleInputChange} />
+                        <input type="text" value={inputPath} onChange={(e) => setInputPath(e.target.value)} />
                         <button onClick={handleInputSubmit}>Go</button>
                     </div>
                     <div className="buttons">
@@ -104,7 +142,7 @@ const SaveFileDialog = ({ onSubmitFile, onClose, currentFilePath }) => {
                         <h3>Files</h3>
                         {files.length === 0 && <p className="empty-message">No file</p>}
                         {files.map((file, index) => (
-                            <div key={index} className="file-item" onClick={() => setFilename(file)}>
+                            <div key={index} className="file-item" onClick={() => handleFileClick(file)}>
                                 {file}
                             </div>
                         ))}
@@ -114,9 +152,12 @@ const SaveFileDialog = ({ onSubmitFile, onClose, currentFilePath }) => {
                             type="text"
                             placeholder="Enter filename"
                             value={filename}
-                            onChange={(e) => setFilename(e.target.value)}
+                            onChange={handleInputChange}
                         />
-                        <button onClick={handleSaveClick}>Save</button>
+                        <button onClick={handleSaveClick}>Save as / Overwrite</button>
+                        {files.includes(filename) && (
+                            <button onClick={handleSaveAndOverwriteClick}>Save and Overwrite</button>
+                        )}
                     </div>
                 </div>
             </div>

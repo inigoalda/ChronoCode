@@ -7,7 +7,12 @@ const FileSelector = ({ onSubmitFile }) => {
     const [folders, setFolders] = useState([]);
     const [files, setFiles] = useState([]);
     const [inputPath, setInputPath] = useState(currentPath);
+    const [error, setError] = useState(null);
     const fileSelectorRef = useRef(null);
+
+    useEffect(() => {
+        fetchFiles(currentPath);
+    }, [currentPath]);
 
     const fetchFiles = async (path) => {
         try {
@@ -20,16 +25,16 @@ const FileSelector = ({ onSubmitFile }) => {
             });
 
             if (!response.ok) {
-                throw new Error(`Erreur HTTP! Statut: ${response.status}`);
+                return false;
             }
             const data = await response.json();
             const { folders, files } = data;
-            folders.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
-            files.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
             setFolders(folders);
             setFiles(files);
+            setError(null);
+            return true;
         } catch (error) {
-            console.error('Erreur lors de la récupération des fichiers :', error);
+            setError("Error while fetching data: " + error)
         }
     };
 
@@ -51,13 +56,20 @@ const FileSelector = ({ onSubmitFile }) => {
         onSubmitFile(selectedFilePath);
     };
 
-    const handleInputSubmit = () => {
-        setHistory(prevHistory => [...prevHistory, currentPath]);
-        if (inputPath.trim() === "") {
+    const handleInputSubmit = async () => {
+        const previousPath = currentPath;
+        if (inputPath.trim() === "" || inputPath === "/") {
             setInputPath("/");
             setCurrentPath("/");
         } else {
-            setCurrentPath(inputPath);
+            const success = await fetchFiles(inputPath);
+            if (success) {
+                setHistory(prevHistory => [...prevHistory, currentPath]);
+                setCurrentPath(inputPath);
+            } else {
+                setInputPath(previousPath);
+                setCurrentPath(previousPath);   
+            }
         }
     };
 
@@ -86,10 +98,6 @@ const FileSelector = ({ onSubmitFile }) => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
-
-    useEffect(() => {
-        fetchFiles(currentPath);
-    }, [currentPath]);
 
     return (
         <div className="file-selector-overlay">

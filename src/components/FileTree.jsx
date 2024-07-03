@@ -38,7 +38,7 @@ const FileTree = (props) => {
         const addFolders = (node, folders) => {
             folders.forEach(folder => {
                 let newNode = {
-                    name: " "+folder.folderName,
+                    name: " " + folder.folderName,
                     children: [],
                 };
                 node.children.push(newNode);

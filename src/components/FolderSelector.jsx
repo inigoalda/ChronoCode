@@ -8,6 +8,7 @@ const FolderSelector = ({ onSubmitFolder }) => {
     const [files, setFiles] = useState([]);
     const [selectedPath, setSelectedPath] = useState('');
     const [inputPath, setInputPath] = useState(currentPath);
+    const [error, setError] = useState(null);
     const fileSelectorRef = useRef(null);
 
     useEffect(() => {
@@ -25,16 +26,16 @@ const FolderSelector = ({ onSubmitFolder }) => {
             });
 
             if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
+                return false;
             }
-
             const data = await response.json();
-            console.log('Fetched data:', data);
             const { folders, files } = data;
             setFolders(folders);
             setFiles(files);
+            setError(null);
+            return true;
         } catch (error) {
-            console.error('Error fetching files:', error);                                                      
+            setError("Error while fetching data: " + error)
         }
     };
 
@@ -72,14 +73,20 @@ const FolderSelector = ({ onSubmitFolder }) => {
         setInputPath(event.target.value);
     };
 
-    const handleInputSubmit = () => {
-        setHistory(prevHistory => [...prevHistory, currentPath]);
-        if (inputPath.trim() === "") {
-            console.log("here");
+    const handleInputSubmit = async () => {
+        const previousPath = currentPath;
+        if (inputPath.trim() === "" || inputPath === "/") {
             setInputPath("/");
             setCurrentPath("/");
         } else {
-            setCurrentPath(inputPath);
+            const success = await fetchFiles(inputPath);
+            if (success) {
+                setHistory(prevHistory => [...prevHistory, currentPath]);
+                setCurrentPath(inputPath);
+            } else {
+                setInputPath(previousPath);
+                setCurrentPath(previousPath);   
+            }
         }
     };
 
