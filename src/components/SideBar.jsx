@@ -105,14 +105,6 @@ const SideBar = forwardRef((props, ref) => {
             <div className="left-bar-bottom">
                 <OptionsMenu isVisible={accountVisible} options={settingsOptions} onClose={() => setAccountVisible(false)} top="calc(100% - 62px)" left="48px"/>
                 <IconItem
-                    icon={VscLock}
-                    onClick={() => props.setAreTabsLocked(true)}
-                />
-                <IconItem
-                    icon={VscUnlock}
-                    onClick={() => props.setAreTabsLocked(false)}
-                />
-                <IconItem
                     icon={VscSettingsGear}
                     onClick={() => handleIconClick('VscSettingsGear')}
                     isActive={false}
