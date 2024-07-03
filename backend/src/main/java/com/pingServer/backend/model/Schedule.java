@@ -24,7 +24,15 @@ public class Schedule {
 
     private LocalDateTime start_date;
     private LocalDateTime end_date;
+    private boolean allDay;
 
+    public boolean isAllDay() {
+        return allDay;
+    }
+
+    public void setAllDay(boolean allDay) {
+        this.allDay = allDay;
+    }
 
     @ManyToOne()
     @JoinColumn(name = "calendar_id")
