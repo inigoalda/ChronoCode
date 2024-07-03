@@ -1,0 +1,39 @@
+.result {
+    padding: 10px;
+    border: 1px solid #3C3C3C;
+    margin-bottom: 10px;
+}
+
+.result:hover {
+    background-color: #2E2E2E;
+    cursor: pointer;
+}
+
+.result-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.result-line {
+    font-style: italic;
+    margin-bottom: 5px;
+}
+
+.result-content {
+    font-family: monospace;
+    white-space: pre-wrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+}
+
+.result-highlight {
+    background-color: #ff0;
+    font-weight: bold;
+}
+
+.result-path {
+    font-size: 0.8em;
+    color: #777;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}

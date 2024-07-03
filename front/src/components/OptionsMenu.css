@@ -1,0 +1,22 @@
+.options-menu {
+    position: absolute;
+    width: 175px;
+    background-color: #1F1F1F;
+    border: 1px solid #474747;
+    border-radius: 4px;
+    padding: 3px;
+    z-index: 1000;
+    font-family: Segoe WPC, Segoe UI, sans-serif;
+    font-size: 13px;
+}
+
+.options-menu-item {
+    padding: 5px 30px;
+    cursor: pointer;
+    border-radius: 4px;
+    color: #fff;
+}
+
+.options-menu-item:hover {
+    background-color: #0078D4;
+}
