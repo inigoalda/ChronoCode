@@ -23,7 +23,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UsersController {
     @Autowired
     private UserService userService;
