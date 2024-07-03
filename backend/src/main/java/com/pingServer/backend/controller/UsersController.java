@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @RestController
@@ -173,10 +175,11 @@ public class UsersController {
         User u = userService.getUserById(userId.longValue());
         if (u != null)
         {
-            LocalDateTime localDate = LocalDateTime.now();
+            // paris time local now
+            LocalDateTime localDate = LocalDateTime.now(ZoneId.of("Europe/Paris"));
             Duration shortestDuration = null;
             Boolean inMeeting = false;
-
+            Logger.log(localDate.toString());
             for (Schedule e : scheduleService.allEvents(u)){
                 Duration duration = Duration.between(localDate, e.getStart_date());
                 if (!duration.isNegative() && (shortestDuration == null || duration.compareTo(shortestDuration) < 0)) {

@@ -49,7 +49,6 @@ function App() {
 
     const openFile = () => {
         workAreaRef.current.onOpenFile();
-        sideBarRef.current.handleCloseMenu();
     }
 
     const openFileWithPath = (file) => {
@@ -159,20 +158,38 @@ function App() {
     }, []);
 
     useEffect(() => {
-        const eventSource = new EventSource('http://localhost:8081/events');
-        
-        eventSource.addEventListener('lock', (event) => {
-            setAreTabsLocked(true);
-        });
-
-        eventSource.addEventListener('unlock', (event) => {
-            setAreTabsLocked(false);
-        });
-
-        return () => {
-            eventSource.close();
+        const checkNextEvent = async () => {
+            try {
+                const response = await fetch(`http://localhost:8081/nextevent/${UserId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.statusCode === 200) {
+                        console.log(data);
+                        const { timeUntilNext, inMeeting, message, statusCode } = data;
+                        setAreTabsLocked(inMeeting);
+                        if (timeUntilNext == 15) {
+                            workAreaRef.current.onRemindNextMeeting();
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
         };
-    }, []);
+        checkNextEvent();
+
+        const interval = setInterval(() => {
+            checkNextEvent();
+        }, 1000 * 31);
+
+        return () => clearInterval(interval);
+    }, [UserId]);
+
 
     return (<div>
         {!isLogged && <Login userHandler={(username, id) => {
@@ -226,9 +243,7 @@ function App() {
                     </Resizable>
                 )}
                 <WorkArea ref={workAreaRef} handleSetData={handleSetData} tabs={tabs} setTabs={setTabs}
-                    areTabsLocked={areTabsLocked}
-                    setAreTabsLocked={setAreTabsLocked}
-                />
+                    areTabsLocked={areTabsLocked} setAreTabsLocked={setAreTabsLocked} />
             </div>
         </div>}
     </div>);
