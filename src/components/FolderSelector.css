@@ -87,20 +87,23 @@
     background-color: #0056b3;
 }
 
-.folders, .files {
+.folders,
+.files {
     max-height: 300px;
     overflow-y: auto;
     margin-bottom: 10px;
 }
 
-.folder-item, .file-item {
+.folder-item,
+.file-item {
     cursor: pointer;
     padding: 5px;
     border-radius: 4px;
     transition: background 0.3s;
 }
 
-.folder-item:hover, .file-item:hover {
+.folder-item:hover,
+.file-item:hover {
     background: #f0f0f0;
 }
 

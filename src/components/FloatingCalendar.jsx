@@ -4,8 +4,9 @@ import './FloatingCalendar.css';
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { VscClose } from "react-icons/vsc";
+import { VscClose, VscAdd } from "react-icons/vsc";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
+import AddEvent from './AddEvent';
 
 const DragAndDropCalendar = withDragAndDrop(Calendar)
 
@@ -16,8 +17,9 @@ const FloatingCalendar = ({ onClose, userId }) => {
     const [schedule, setSchedule] = useState([]);
     const [error, setError] = useState('');
     const [myevents, setMyEvents] = useState([]);
+    const [add, setAdd] = useState(false);
 
-    const Colors = ["#ffb3ba", "#ffdfba", "#ffffba", "#baffc9", "#bae1ff"]
+    const Colors = ["#ffdfba", "#ffdfba", "#ffffba", "#baffc9", "#bae1ff"]
 
     useEffect(() => {
         const FetchData = async () => {
@@ -110,29 +112,32 @@ const FloatingCalendar = ({ onClose, userId }) => {
     )
 
 
+    const handleOpenAdd = () => {
+        setTimeout(() => setAdd(true), 0);
+    }
+
     return (
         <div className="floating-window">
             <div className="overlay" onClick={onClose}></div>
             <div className="window">
                 <div style={{ textAlign: 'right', cursor: 'pointer' }}>
+                    <VscAdd size={24} onClick={handleOpenAdd} color="white" />
                     <VscClose size={24} onClick={onClose} color="white" />
                 </div>
                 <div className="window-content">
+                    {add && <AddEvent onCloseAdd={() => setAdd(false)} id={userId} />}
                     <DragAndDropCalendar
                         localizer={localizer}
                         events={myevents}
                         startAccessor="start"
                         endAccessor="end"
                         style={{ height: "90vh", width: "90vw" }}
-                        //onEventDrop={moveEvent}
-                        //onEventResize={resizeEvent}
                         defaultView="day"
-                        //selectable
-                        //resizable
                         eventPropGetter={(event) => {
                             return {
                                 style: {
-                                    backgroundColor: event.color
+                                    backgroundColor: event.color,
+                                    color: "#000"
                                 }
                             }
                         }}
