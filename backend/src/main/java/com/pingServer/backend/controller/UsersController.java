@@ -47,7 +47,7 @@ public class UsersController {
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Response loginUser(@RequestBody final User user)
     {
-        Logger.log("Log in user: " + user.getUsername());
+        Logger.log("Log in user");
         Response response = new Response();
         User u = userService.loginUser(user);
         if( u != null)
@@ -67,7 +67,7 @@ public class UsersController {
     @PostMapping(value = "/signin", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Response createUser(@RequestBody final User user)
     {
-        Logger.log("Sign in user: " + user.getUsername());
+        Logger.log("Sign in user");
         Response response = new Response();
         if(userService.createUser(user))
         {
